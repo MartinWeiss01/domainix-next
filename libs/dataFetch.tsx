@@ -1,3 +1,4 @@
+import 'server-only'
 import { APIResponse } from "@/types/apiResponse"
 
 export async function getDomainixData() {
