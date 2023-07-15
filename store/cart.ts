@@ -30,9 +30,11 @@ export const useCart = create<ICart>(set => ({
   removeDomain: (domain: CartData) => {
     set(state => ({
       domains: state.domains.filter(d =>
-        d.rid !== domain.rid &&
-        d.domain !== domain.domain &&
-        d.selectedDomain !== domain.selectedDomain
+        !(
+          d.rid === domain.rid &&
+          d.domain === domain.domain &&
+          d.selectedDomain === domain.selectedDomain
+        )
       )
     }))
   }
