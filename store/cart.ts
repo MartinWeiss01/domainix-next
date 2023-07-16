@@ -5,6 +5,7 @@ interface ICart {
   domains: CartData[]
   addDomain: (domain: CartData) => void
   removeDomain: (domain: CartData) => void
+  increaseYear: (domain: CartData, year: number) => void
 }
 
 export const useCart = create<ICart>(set => ({
@@ -36,6 +37,29 @@ export const useCart = create<ICart>(set => ({
           d.selectedDomain === domain.selectedDomain
         )
       )
+    }))
+  },
+  increaseYear: (domain: CartData, year: number) => {
+    set(state => ({
+      domains: state.domains.map(d => {
+        if (
+          d.registrar.id === domain.registrar.id &&
+          d.detail.domain === domain.detail.domain &&
+          d.selectedDomain === domain.selectedDomain
+        ) {
+          if (d.years + year > 10) {
+            return d
+          } else if (d.years + year < 1) {
+            return d
+          } else return {
+            ...d,
+            years: year + d.years
+          }
+        }
+        else {
+          return d
+        }
+      })
     }))
   }
 }))
