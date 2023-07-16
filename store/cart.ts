@@ -13,8 +13,8 @@ export const useCart = create<ICart>(set => ({
   addDomain: (domain: CartData) => {
     set(state => {
       if (!state.domains.some(d =>
-        d.rid === domain.rid &&
-        d.domain === domain.domain &&
+        d.registrar.id === domain.registrar.id &&
+        d.detail.domain === domain.detail.domain &&
         d.selectedDomain === domain.selectedDomain)
       ) {
         return {
@@ -32,8 +32,8 @@ export const useCart = create<ICart>(set => ({
     set(state => ({
       domains: state.domains.filter(d =>
         !(
-          d.rid === domain.rid &&
-          d.domain === domain.domain &&
+          d.registrar.id === domain.registrar.id &&
+          d.detail.domain === domain.detail.domain &&
           d.selectedDomain === domain.selectedDomain
         )
       )

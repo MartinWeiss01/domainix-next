@@ -1,6 +1,13 @@
-import { TLD } from "./apiResponse"
+import { Registrar, TLD } from "./apiResponse"
 
-export interface EstimationData extends TLD {
-  rid: number
+export interface EstimationData {
+  registrar: Registrar
+  detail: TLD
   date: number
+}
+
+export interface FormState {
+  tld: string
+  domain: string
+  years: number
 }
