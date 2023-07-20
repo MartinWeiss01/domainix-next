@@ -23,3 +23,7 @@ export const findTLDRegistrars = (data: APIResponse, selectedTLD: string): Estim
     return registrars
   }, [])
 }
+
+export function classNames(...classes: string[]): string {
+  return classes.filter(Boolean).join(" ");
+}
