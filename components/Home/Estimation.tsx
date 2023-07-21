@@ -32,11 +32,32 @@ const Estimation = ({ data, availableTLDs }: EstimationProps) => {
   }, [data.data])
 
   return (
-    <div className="bg-green-400">
-      <h2>Estimation Component</h2>
-      <Form availableTLDs={availableTLDs} findAction={handleFormSubmit} processing={processing} />
-                  <Table estimationData={estimationData} processing={processing} years={years} domainName={domainName} />
+    <div className="relative min-h-screen flex flex-col">
+      <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex">
+        {/* Main Area */}
+        <div className="flex-1 min-w-0 bg-white xl:flex">
+          <div className="lg:min-w-0 lg:flex-1">
+            <div className="h-full py-6 px-4 sm:px-6 lg:px-8">
+              <div className="relative h-full space-y-6" style={{ minHeight: "36rem" }}>
+                <Form availableTLDs={availableTLDs} findAction={handleFormSubmit} processing={processing} />
+                <Table estimationData={estimationData} processing={processing} years={years} domainName={domainName} />
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Main Area */}
+
+        <div className="bg-gray-50 pr-4 sm:pr-6 lg:pr-8 lg:flex-shrink-0 lg:border-l lg:border-gray-200 xl:pr-0">
+          <div className="h-full lg:w-80">
+            {/* Right Column */}
+            <div className="h-full relative" style={{ minHeight: "16rem" }}>
+              <Cart />
+            </div>
+            {/* Right Column */}
+          </div>
+        </div>
       </div>
+    </div>
   )
 }
 
