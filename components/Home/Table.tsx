@@ -26,9 +26,9 @@ const Table = ({ estimationData, processing, domainName, years }: TableProps) =>
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="overflow-hidden rounded-lg">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+          <div className="overflow-x-auto max-h-96 rounded-lg">
+            <table className="min-w-full divide-y divide-gray-200 relative">
+              <thead className="bg-gray-50 sticky top-0">
                 <tr>
                   <th
                     scope="col"
