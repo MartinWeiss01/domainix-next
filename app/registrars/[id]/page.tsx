@@ -16,7 +16,7 @@ export default function DetailPage({ params }: { params: { id: string } }) {
     if (data !== undefined) {
       return (
         <TwoColumnLayout
-          leftColumn={<RegistrarCard registrar={registrar} updateDate={data.date} />}
+          leftColumn={<RegistrarCard registrar={registrar} updateDate={data.date} totalTLD={data.domains.length} />}
           rightColumn={<RegistrarDetail data={data} />}
         />
       )
