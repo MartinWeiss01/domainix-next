@@ -12,23 +12,15 @@ const TwoColumnLayout = ({
       <div className="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
         {/* Left column */}
         <div className="grid grid-cols-1 gap-4">
-          <section>
-            <div className="rounded-lg bg-white overflow-hidden shadow">
-              <div className="p-6">
-                {leftColumn}
-              </div>
-            </div>
+          <section className="overflow-hidden">
+            {leftColumn}
           </section>
         </div>
 
         {/* Right column */}
         <div className="grid grid-cols-1 gap-4 lg:col-span-2">
-          <section>
-            <div className="rounded-lg bg-white overflow-hidden shadow">
-              <div className="p-6">
-                {rightColumn}
-              </div>
-            </div>
+          <section className="overflow-hidden">
+            {rightColumn}
           </section>
         </div>
       </div>
