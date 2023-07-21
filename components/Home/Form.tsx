@@ -19,7 +19,7 @@ const Form = ({ availableTLDs, findAction, processing }: FormProps) => {
   const [formData, setFormData] = useState(INITIAL_FORM_STATE)
 
   return (
-    <div className="flex flex-col p-6 space-y-3 bg-gray-50 rounded-lg">
+    <div className="flex flex-col p-6 space-y-6 bg-gray-50 rounded-lg">
       <h2 className="font-bold text-2xl">Search</h2>
 
       <div className="flex flex-col space-y-1">
@@ -45,14 +45,34 @@ const Form = ({ availableTLDs, findAction, processing }: FormProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col space-y-1">
-        <h2 className="block text-sm font-medium leading-6 text-gray-900">Years</h2>
+      <div className="flex items-center space-x-3 w-full">
+        <div className="flex flex-col space-y-1 w-full">
+          <label htmlFor="years" className="block text-sm font-medium leading-6 text-gray-900">
+            Years
+          </label>
 
-        <div className="flex items-center space-x-3 w-full">
-          <input className="w-full accent-primary-600" type="range" min="1" max="10" value={formData.years} onChange={(e) => setFormData(prev => ({ ...prev, years: parseInt(e.target.value) }))} />
-          <div className="border flex items-center p-1 w-9 h-9 justify-center font-semibold uppercase text-sm">
-            {formData.years}
+          <div className="w-full flex flex-col">
+            <input
+              name="years"
+              id="years"
+              className="w-full range-slider"
+              type="range" min="1" max="10" value={formData.years} onChange={(e) => setFormData(prev => ({ ...prev, years: parseInt(e.target.value) }))} />
+            <div className="flex justify-between text-xs mt-3 text-gray-400">
+              <span className="w-4 h-4 flex items-center justify-center">1</span>
+              <span className="hidden w-4 h-4 xs:flex items-center justify-center">2</span>
+              <span className="hidden w-4 h-4 xs:flex items-center justify-center">3</span>
+              <span className="hidden w-4 h-4 xs:flex items-center justify-center">4</span>
+              <span className="hidden w-4 h-4 xs:flex items-center justify-center">5</span>
+              <span className="hidden w-4 h-4 xs:flex items-center justify-center">6</span>
+              <span className="hidden w-4 h-4 xs:flex items-center justify-center">7</span>
+              <span className="hidden w-4 h-4 xs:flex items-center justify-center">8</span>
+              <span className="hidden w-4 h-4 xs:flex items-center justify-center">9</span>
+              <span className="w-4 h-4 flex items-center justify-center">10</span>
+            </div>
           </div>
+        </div>
+        <div className="border flex items-center p-1 w-9 h-9 justify-center font-semibold uppercase text-sm">
+          {formData.years}
         </div>
       </div>
 
