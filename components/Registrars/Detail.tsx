@@ -9,7 +9,7 @@ interface RegistrarDetailProps {
 const RegistrarDetail = ({ data }: RegistrarDetailProps) => {
   return (
     <>
-      <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight my-4">Available TLDs</h2>
+      <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight mb-4">Available TLDs</h2>
       <div className="overflow-x-auto max-h-96">
         <table className="min-w-full divide-y divide-gray-200 bg-gray-50 relative">
           <thead className="bg-gray-100 sticky top-0">

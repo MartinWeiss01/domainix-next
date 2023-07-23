@@ -15,7 +15,7 @@ const RegistrarCard = ({
 }) => {
   return (
     <>
-      <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight my-4">Registrar Details</h2>
+      <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight mb-4">Registrar Details</h2>
 
       <div className="grid grid-cols-1 gap-4">
         <div className="bg-gray-50 rounded-lg overflow-hidden mb-6 max-w-md">
