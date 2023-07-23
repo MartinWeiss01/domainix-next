@@ -10,4 +10,5 @@ export interface FormState {
   tld: string
   domain: string
   years: number
+  enabled: boolean
 }

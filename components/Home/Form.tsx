@@ -1,7 +1,8 @@
 'use client'
 
+import { classNames } from "@/libs/utilities"
 import { FormState } from "@/types/estimation"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface FormProps {
   availableTLDs: string[]
@@ -12,11 +13,40 @@ interface FormProps {
 const INITIAL_FORM_STATE: FormState = {
   tld: '',
   domain: '',
-  years: 1
+  years: 1,
+  enabled: false,
 }
 
 const Form = ({ availableTLDs, findAction, processing }: FormProps) => {
   const [formData, setFormData] = useState(INITIAL_FORM_STATE)
+  const tldInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const domain = formData.domain.replace(/\s/g, '')
+    const tld = formData.tld.replace(/\s/g, '')
+
+    setFormData(prev => ({
+      ...prev,
+      enabled: (domain.length > 0 && tld.length > 0)
+    }))
+  }, [formData.domain, formData.tld])
+
+
+  const handleDomainChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    if (value.endsWith('.')) {
+      setFormData(prev => ({
+        ...prev,
+        tld: '.'
+      }))
+      tldInputRef.current?.focus()
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        domain: value,
+      }))
+    }
+  }
 
   return (
     <div className="flex flex-col p-6 space-y-6 bg-gray-50 rounded-lg">
@@ -31,12 +61,29 @@ const Form = ({ availableTLDs, findAction, processing }: FormProps) => {
           <label htmlFor="domain" className="block text-sm font-medium leading-6 text-gray-900 xs:hidden">
             Domain Name
           </label>
-          <input name="domain" id="domain" className="border border-gray-100 xs:border-0 px-3 py-4 text-sm md:font-semibold bg-white text-gray-900 outline-0 w-full rounded xs:rounded-none xs:rounded-l" value={formData.domain} onChange={(e) => setFormData(prev => ({ ...prev, domain: e.target.value }))} type="text" placeholder="absolutelyuniquedomain" />
+          <input
+            name="domain"
+            id="domain"
+            value={formData.domain}
+            onChange={(e) => handleDomainChange(e)}
+            type="text"
+            placeholder="absolutelyuniquedomain"
+            className="border border-gray-100 xs:border-0 px-3 py-4 text-sm md:font-semibold bg-white text-gray-900 outline-0 w-full rounded xs:rounded-none xs:rounded-l"
+          />
 
           <label htmlFor="tld" className="block text-sm font-medium leading-6 text-gray-900 xs:hidden">
             TLD
           </label>
-          <input name="tld" id="tld" className="border border-gray-100 xs:border-0 px-3 py-4 text-sm md:font-semibold bg-gray-100 text-black outline-0 w-full xs:w-[164px] rounded xs:rounded-none xs:rounded-r" value={formData.tld} onChange={(e) => setFormData(prev => ({ ...prev, tld: e.target.value }))} list="available-tlds" id="tld" name="tld" placeholder=".com" />
+          <input
+            name="tld"
+            id="tld"
+            ref={tldInputRef}
+            value={formData.tld}
+            onChange={(e) => setFormData(prev => ({ ...prev, tld: e.target.value }))}
+            list="available-tlds"
+            placeholder=".com"
+            className="border border-gray-100 xs:border-0 px-3 py-4 text-sm md:font-semibold bg-gray-100 text-black outline-0 w-full xs:w-[164px] rounded xs:rounded-none xs:rounded-r"
+          />
           <datalist id="available-tlds">
             {availableTLDs.map(el => (
               <option value={el} key={el} />
@@ -77,7 +124,15 @@ const Form = ({ availableTLDs, findAction, processing }: FormProps) => {
       </div>
 
       <div className="flex justify-end">
-        <button className="w-full sm:w-auto py-3 px-5 bg-gray-900 hover:bg-black transition-colors text-white text-sm font-semibold rounded" onClick={() => findAction(formData)} disabled={processing}>
+        <button
+          onClick={() => findAction(formData)} disabled={!formData.enabled}
+          className={
+            classNames(
+              "w-full sm:w-auto py-3 px-5 bg-gray-900 hover:bg-black transition-colors text-white text-sm font-semibold rounded",
+              !formData.enabled && 'opacity-25 cursor-not-allowed'
+            )
+          }
+        >
           {
             processing ? 'Processing...' : 'Find Registrars'
           }
