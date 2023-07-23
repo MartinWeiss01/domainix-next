@@ -76,16 +76,16 @@ const Table = ({ estimationData, processing, domainName, years }: TableProps) =>
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
                           <img
-                            className="h-10 w-10 rounded-full"
-                            src=""
-                            alt=""
+                            className="object-scale-down object-center h-10 w-10 rounded-full"
+                            src={el.registrar.img}
+                            alt={el.registrar.name}
                           />
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">
                             {el.registrar.name}
                           </div>
-                          <small className="text-gray-500">
+                          <small className="text-gray-500" title="Last Update">
                             {new Date(el.date).toLocaleDateString()}
                           </small>
                         </div>
