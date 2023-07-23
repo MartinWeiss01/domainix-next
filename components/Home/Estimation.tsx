@@ -32,7 +32,7 @@ const Estimation = ({ data, availableTLDs }: EstimationProps) => {
   }, [data.data])
 
   return (
-    <div className="relative min-h-screen flex flex-col">
+    <div className="relative flex flex-col">
       <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex">
         {/* Main Area */}
         <div className="flex-1 min-w-0 bg-white xl:flex">
