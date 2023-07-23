@@ -24,6 +24,6 @@ export const findTLDRegistrars = (data: APIResponse, selectedTLD: string): Estim
   }, [])
 }
 
-export function classNames(...classes: string[]): string {
+export function classNames(...classes: (string | boolean)[]): string {
   return classes.filter(Boolean).join(" ");
 }
