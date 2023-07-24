@@ -13,11 +13,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
+  params: { lang: string }
 }) {
   return (
-    <html lang="cs">
+    <html lang={params.lang}>
       <body className={inter.className}>
         <Navbar />
         {children}
