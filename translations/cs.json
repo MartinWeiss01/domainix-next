@@ -1,0 +1,69 @@
+{
+  "registrars": {
+    "list": {
+      "title": "Dostupní registrátoři"
+    },
+    "details": {
+      "card": {
+        "title": "Podrobnosti",
+        "web": "Web",
+        "tldCount": "Počet TLD",
+        "lastUpdate": "Aktualizováno"
+      },
+      "detail": {
+        "title": "Dostupné TLD",
+        "colTld": "TLD",
+        "colRegPrice": "Registrační cena",
+        "colRenPrice": "Prodloužení",
+        "currencyCZK": "Kč",
+        "priceDuration": "/rok"
+      }
+    }
+  },
+  "estimation": {
+    "form": {
+      "title": "Získat cenovou nabídku",
+      "domain": {
+        "label": "Doména",
+        "placeholder": "nejlepsidomena"
+      },
+      "tld": {
+        "label": "TLD",
+        "placeholder": ".cz"
+      },
+      "years": "Počet roků",
+      "button": "Najít registrátory",
+      "processing": "Zpracovávání..."
+    },
+    "table": {
+      "colRegistrar": "Registrátor",
+      "colDomain": "Doména",
+      "colRegPrice": "Registrační cena",
+      "colRenPrice": "Prodloužení",
+      "colTotalPrice": "Celkem",
+      "colAddToCart": "Přidat do košíku",
+      "currencyCZK": "Kč",
+      "priceDuration": "/rok"
+    },
+    "cart": {
+      "title": "Shrnutí",
+      "priceTotal": "Celkem",
+      "currencyCZK": "Kč",
+      "emptyTitle": "Žádné domény",
+      "emptyDescription": "Přidejte domény do košíku pomocí tabulky.",
+      "item": {
+        "currencyCZK": "Kč"
+      }
+    }
+  },
+  "navbar": {
+    "language": "Jazyk",
+    "vatInclude": "Zahrnout DPH",
+    "vatValue": "DPH",
+    "menuOpen": "Otevřít menu",
+    "settigs": "Nastavení"
+  },
+  "footer": {
+    "madeWithLove": "S ♥ vytvořeno v Brně"
+  }
+}
