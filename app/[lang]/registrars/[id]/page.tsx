@@ -19,8 +19,8 @@ const DetailPageSync = ({ translations, registrarId }: { translations: ITranslat
     if (data !== undefined) {
       return (
         <TwoColumnLayout
-          leftColumn={<RegistrarCard registrar={registrar} updateDate={data.date} totalTLD={data.domains.length} />}
-          rightColumn={<RegistrarDetail data={data} />}
+          leftColumn={<RegistrarCard registrar={registrar} updateDate={data.date} totalTLD={data.domains.length} translations={translations.card} />}
+          rightColumn={<RegistrarDetail data={data} translations={translations.detail} />}
         />
       )
     } else {
