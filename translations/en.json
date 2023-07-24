@@ -61,7 +61,11 @@
     "vatInclude": "Include VAT",
     "vatValue": "VAT",
     "menuOpen": "Open main menu",
-    "settigs": "Settings"
+    "settigs": "Settings",
+    "links": {
+      "home": "Home",
+      "registrars": "Registrars"
+    }
   },
   "footer": {
     "madeWithLove": "Made with ♥ in Czechia"

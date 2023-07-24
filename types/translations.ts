@@ -59,6 +59,13 @@ export interface ITranslationsNavbar {
   vatValue: string;
   menuOpen: string;
   settigs: string;
+  links: ITranslationsLinks;
+}
+
+export interface ITranslationsLinks {
+  home: string;
+  registrars: string;
+  [key: string]: string;
 }
 
 export interface ITranslationsRegistrars {

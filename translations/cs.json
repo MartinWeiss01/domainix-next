@@ -61,7 +61,11 @@
     "vatInclude": "Zahrnout DPH",
     "vatValue": "DPH",
     "menuOpen": "Otevřít menu",
-    "settigs": "Nastavení"
+    "settigs": "Nastavení",
+    "links": {
+      "home": "Domů",
+      "registrars": "Registrátoři"
+    }
   },
   "footer": {
     "madeWithLove": "S ♥ vytvořeno v Brně"
