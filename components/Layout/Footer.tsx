@@ -1,7 +1,12 @@
 import 'server-only'
 import Link from "next/link"
+import { ITranslationsFooter } from '@/types/translations'
 
-export default function Footer() {
+export default function Footer({
+  translations
+}: {
+  translations: ITranslationsFooter
+}) {
   return (
     <footer>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
@@ -12,7 +17,7 @@ export default function Footer() {
             </span>
           </Link>
           <Link href="https://martinweiss.cz/" target="_blank">
-            <span>Made with ❤ in Czechia</span>
+            <span>{translations.madeWithLove}</span>
           </Link>
         </div>
       </div>

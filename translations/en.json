@@ -1,0 +1,76 @@
+{
+  "registrars": {
+    "list": {
+      "title": "Available Registrars"
+    },
+    "details": {
+      "card": {
+        "title": "Registrar Details",
+        "web": "Web",
+        "tldCount": "Total TLDs",
+        "lastUpdate": "Last Update"
+      },
+      "detail": {
+        "title": "Available TLDs",
+        "colTld": "TLD",
+        "colRegPrice": "Registration Price",
+        "colRenPrice": "Renewal Price",
+        "currencyCZK": "CZK",
+        "priceDuration": " per year"
+      }
+    }
+  },
+  "estimation": {
+    "form": {
+      "title": "Search",
+      "domain": {
+        "label": "Domain Name",
+        "placeholder": "absolutelyuniquedomain"
+      },
+      "tld": {
+        "label": "TLD",
+        "placeholder": ".com"
+      },
+      "years": "Years",
+      "button": "Find Registrars",
+      "processing": "Processing..."
+    },
+    "table": {
+      "colRegistrar": "Registrar",
+      "colDomain": "Domain Name",
+      "colRegPrice": "Registration Price",
+      "colRenPrice": "Renewal Price",
+      "colTotalPrice": "Total Price",
+      "colAddToCart": "Add to Cart",
+      "currencyCZK": "CZK",
+      "priceDuration": " per year"
+    },
+    "cart": {
+      "title": "Summary",
+      "priceTotal": "Total",
+      "currencyCZK": "CZK",
+      "emptyTitle": "There are no domains yet.",
+      "emptyDescription": "Please add some domains to the cart.",
+      "item": {
+        "currencyCZK": "CZK",
+        "pluralOne": "year",
+        "pluralFew": "years",
+        "pluralOther": "years"
+      }
+    }
+  },
+  "navbar": {
+    "language": "Language",
+    "vatInclude": "Include VAT",
+    "vatValue": "VAT",
+    "menuOpen": "Open main menu",
+    "settigs": "Settings",
+    "links": {
+      "home": "Home",
+      "registrars": "Registrars"
+    }
+  },
+  "footer": {
+    "madeWithLove": "Made with ❤ in Czechia"
+  }
+}

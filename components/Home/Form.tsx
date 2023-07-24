@@ -2,12 +2,14 @@
 
 import { classNames } from "@/libs/utilities"
 import { FormState } from "@/types/estimation"
+import { ITranslationsForm } from "@/types/translations"
 import { useEffect, useRef, useState } from "react"
 
 interface FormProps {
   availableTLDs: string[]
   findAction: (formData: FormState) => void
   processing: boolean
+  translations: ITranslationsForm
 }
 
 const INITIAL_FORM_STATE: FormState = {
@@ -17,7 +19,7 @@ const INITIAL_FORM_STATE: FormState = {
   enabled: false,
 }
 
-const Form = ({ availableTLDs, findAction, processing }: FormProps) => {
+const Form = ({ availableTLDs, findAction, processing, translations }: FormProps) => {
   const [formData, setFormData] = useState(INITIAL_FORM_STATE)
   const tldInputRef = useRef<HTMLInputElement>(null)
 
@@ -50,16 +52,16 @@ const Form = ({ availableTLDs, findAction, processing }: FormProps) => {
 
   return (
     <div className="flex flex-col p-6 space-y-6 bg-gray-50 rounded-lg">
-      <h2 className="font-bold text-2xl">Search</h2>
+      <h2 className="font-bold text-2xl">{translations.title}</h2>
 
       <div className="flex flex-col space-y-1">
 
         <label htmlFor="domain" className="xs:block text-sm font-medium leading-6 text-gray-900 hidden">
-          Domain Name
+          {translations.domain.label}
         </label>
         <div className="flex flex-col xs:flex-row w-full space-y-2 xs:space-y-0">
           <label htmlFor="domain" className="block text-sm font-medium leading-6 text-gray-900 xs:hidden">
-            Domain Name
+            {translations.domain.label}
           </label>
           <input
             name="domain"
@@ -67,12 +69,12 @@ const Form = ({ availableTLDs, findAction, processing }: FormProps) => {
             value={formData.domain}
             onChange={(e) => handleDomainChange(e)}
             type="text"
-            placeholder="absolutelyuniquedomain"
+            placeholder={translations.domain.placeholder}
             className="border border-gray-100 xs:border-0 px-3 py-4 text-sm md:font-semibold bg-white text-gray-900 outline-0 w-full rounded xs:rounded-none xs:rounded-l"
           />
 
           <label htmlFor="tld" className="block text-sm font-medium leading-6 text-gray-900 xs:hidden">
-            TLD
+            {translations.tld.label}
           </label>
           <input
             name="tld"
@@ -81,7 +83,7 @@ const Form = ({ availableTLDs, findAction, processing }: FormProps) => {
             value={formData.tld}
             onChange={(e) => setFormData(prev => ({ ...prev, tld: e.target.value }))}
             list="available-tlds"
-            placeholder=".com"
+            placeholder={translations.tld.placeholder}
             className="border border-gray-100 xs:border-0 px-3 py-4 text-sm md:font-semibold bg-gray-100 text-black outline-0 w-full xs:w-[164px] rounded xs:rounded-none xs:rounded-r"
           />
           <datalist id="available-tlds">
@@ -95,7 +97,7 @@ const Form = ({ availableTLDs, findAction, processing }: FormProps) => {
       <div className="flex items-center space-x-3 w-full">
         <div className="flex flex-col space-y-1 w-full">
           <label htmlFor="years" className="block text-sm font-medium leading-6 text-gray-900">
-            Years
+            {translations.years}
           </label>
 
           <div className="w-full flex flex-col">
@@ -134,7 +136,7 @@ const Form = ({ availableTLDs, findAction, processing }: FormProps) => {
           }
         >
           {
-            processing ? 'Processing...' : 'Find Registrars'
+            processing ? translations.processing : translations.button
           }
         </button>
       </div>

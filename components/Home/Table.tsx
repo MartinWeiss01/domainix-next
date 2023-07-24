@@ -2,6 +2,7 @@
 
 import { useCart } from "@/store/cart"
 import { EstimationData } from "@/types/estimation"
+import { ITranslationsTable } from "@/types/translations";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 
 interface TableProps {
@@ -9,9 +10,10 @@ interface TableProps {
   processing: boolean
   domainName: string
   years: number
+  translations: ITranslationsTable
 }
 
-const Table = ({ estimationData, processing, domainName, years }: TableProps) => {
+const Table = ({ estimationData, processing, domainName, years, translations }: TableProps) => {
   const { addDomain } = useCart()
 
   const handleAddToCart = (estimationEl: EstimationData) => {
@@ -34,38 +36,38 @@ const Table = ({ estimationData, processing, domainName, years }: TableProps) =>
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Registrar
+                    {translations.colRegistrar}
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Domain Name
+                    {translations.colDomain}
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Registration Price
+                    {translations.colRegPrice}
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Renewal Price
+                    {translations.colRenPrice}
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Total Price
+                    {translations.colTotalPrice}
                   </th>
 
                   <th
                     scope="col"
                     className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    <span className="sr-only">Add to cart</span>
+                    <span className="sr-only">{translations.colAddToCart}</span>
                   </th>
                 </tr>
               </thead>
@@ -93,16 +95,15 @@ const Table = ({ estimationData, processing, domainName, years }: TableProps) =>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">{domainName}{el.detail.domain}</div>
-                      <div className="text-sm text-gray-500">Test</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {el.detail.priceReg} CZK/year
+                      {el.detail.priceReg} {translations.currencyCZK}{translations.priceDuration}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {el.detail.priceRen} CZK/year
+                      {el.detail.priceRen} {translations.currencyCZK}{translations.priceDuration}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {el.detail.priceReg + (years - 1) * el.detail.priceRen} CZK
+                      {el.detail.priceReg + (years - 1) * el.detail.priceRen} {translations.currencyCZK}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <a href="#" className="text-indigo-600 hover:text-indigo-900">
