@@ -52,7 +52,10 @@
       "emptyTitle": "Žádné domény",
       "emptyDescription": "Přidejte domény do košíku pomocí tabulky.",
       "item": {
-        "currencyCZK": "Kč"
+        "currencyCZK": "Kč",
+        "pluralOne": "rok",
+        "pluralFew": "roky",
+        "pluralOther": "let"
       }
     }
   },

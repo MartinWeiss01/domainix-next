@@ -7,13 +7,15 @@ import { EstimationData, FormState } from '@/types/estimation'
 import { findTLDRegistrars } from '@/libs/utilities'
 import { flushSync } from 'react-dom'
 import Cart from './Cart'
+import { ITranslationsEstimation } from '@/types/translations'
 
 interface EstimationProps {
   data: APIResponse
   availableTLDs: string[]
+  translations: ITranslationsEstimation
 }
 
-const Estimation = ({ data, availableTLDs }: EstimationProps) => {
+const Estimation = ({ data, availableTLDs, translations }: EstimationProps) => {
   const [processing, setProcessing] = useState(false)
   const [estimationData, setEstimationData] = useState<EstimationData[]>([])
   const [domainName, setDomainName] = useState('')
@@ -39,8 +41,8 @@ const Estimation = ({ data, availableTLDs }: EstimationProps) => {
           <div className="lg:min-w-0 lg:flex-1">
             <div className="h-full py-6 px-4 sm:px-6 lg:px-8">
               <div className="relative h-full space-y-6" style={{ minHeight: "36rem" }}>
-                <Form availableTLDs={availableTLDs} findAction={handleFormSubmit} processing={processing} />
-                <Table estimationData={estimationData} processing={processing} years={years} domainName={domainName} />
+                <Form availableTLDs={availableTLDs} findAction={handleFormSubmit} processing={processing} translations={translations.form} />
+                <Table estimationData={estimationData} processing={processing} years={years} domainName={domainName} translations={translations.table} />
               </div>
             </div>
           </div>
@@ -51,7 +53,7 @@ const Estimation = ({ data, availableTLDs }: EstimationProps) => {
           <div className="h-full lg:w-80">
             {/* Right Column */}
             <div className="h-full relative" style={{ minHeight: "16rem" }}>
-              <Cart />
+              <Cart translations={translations.cart} />
             </div>
             {/* Right Column */}
           </div>

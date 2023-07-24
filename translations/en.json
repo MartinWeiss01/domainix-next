@@ -52,7 +52,10 @@
       "emptyTitle": "There are no domains yet.",
       "emptyDescription": "Please add some domains to the cart.",
       "item": {
-        "currencyCZK": "CZK"
+        "currencyCZK": "CZK",
+        "pluralOne": "year",
+        "pluralFew": "years",
+        "pluralOther": "years"
       }
     }
   },

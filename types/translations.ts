@@ -22,6 +22,9 @@ export interface ITranslationsCart {
 
 export interface ITranslationsItem {
   currencyCZK: string;
+  pluralOne: string;
+  pluralFew: string;
+  pluralOther: string;
 }
 
 export interface ITranslationsForm {

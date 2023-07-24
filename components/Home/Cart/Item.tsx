@@ -2,8 +2,17 @@
 import { XMarkIcon, PlusIcon, MinusIcon } from "@heroicons/react/24/outline"
 import { useCart } from "@/store/cart"
 import { CartData } from "@/types/cart"
+import { ITranslationsItem } from "@/types/translations"
 
-const CartItem = ({ item }: { item: CartData }) => {
+const CartItem = ({
+  item,
+  currency,
+  translations
+}: {
+  item: CartData,
+  currency: string,
+  translations: ITranslationsItem
+}) => {
   const { increaseYear, removeDomain } = useCart()
 
   return (
@@ -22,7 +31,7 @@ const CartItem = ({ item }: { item: CartData }) => {
         <div className="flex flex-col">
           <small>{item.registrar.name}</small>
           <small>
-            {item.detail.priceReg + (item.years - 1) * item.detail.priceRen} Kč
+            {item.detail.priceReg + (item.years - 1) * item.detail.priceRen} {currency}
           </small>
         </div>
 
@@ -36,7 +45,11 @@ const CartItem = ({ item }: { item: CartData }) => {
             </button>
 
             <small className="px-2 font-semibold uppercase text-xs">
-              {item.years} {item.years > 1 ? "years" : "year"}
+              {item.years} {
+                item.years < 5 ?
+                  item.years > 1 ? translations.pluralFew : translations.pluralOne
+                  : translations.pluralOther
+              }
             </small>
 
             <button

@@ -10,7 +10,7 @@ import { ITranslationsEstimation } from '@/types/translations'
 const EstimationSync = ({ translations }: { translations: ITranslationsEstimation }) => {
   const domainixData = use(getDomainixData())
   const uniqueTLDS = getUniqueTLDList(domainixData.data)
-  return <Estimation data={domainixData} availableTLDs={uniqueTLDS} />
+  return <Estimation data={domainixData} availableTLDs={uniqueTLDS} translations={translations} />
 }
 
 export default async function Home({ params }: { params: { lang: Locale } }) {
