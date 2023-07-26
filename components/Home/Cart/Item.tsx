@@ -3,6 +3,8 @@ import { XMarkIcon, PlusIcon, MinusIcon } from "@heroicons/react/24/outline"
 import { useCart } from "@/store/cart"
 import { CartData } from "@/types/cart"
 import { ITranslationsItem } from "@/types/translations"
+import { calculatePrice } from "@/libs/utilities"
+import { useVAT } from "@/store/vat"
 
 const CartItem = ({
   item,
@@ -14,6 +16,7 @@ const CartItem = ({
   translations: ITranslationsItem
 }) => {
   const { increaseYear, removeDomain } = useCart()
+  const { includeVAT, vat } = useVAT()
 
   return (
     <div className="flex flex-col space-y-1">
@@ -31,7 +34,7 @@ const CartItem = ({
         <div className="flex flex-col">
           <small>{item.registrar.name}</small>
           <small>
-            {item.detail.priceReg + (item.years - 1) * item.detail.priceRen} {currency}
+            {calculatePrice(item.detail.priceReg + (item.years - 1) * item.detail.priceRen, includeVAT, vat)} {currency}
           </small>
         </div>
 

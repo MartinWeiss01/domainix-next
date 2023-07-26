@@ -1,6 +1,8 @@
 'use client'
 
+import { calculatePrice } from "@/libs/utilities";
 import { useCart } from "@/store/cart"
+import { useVAT } from "@/store/vat";
 import { EstimationData } from "@/types/estimation"
 import { ITranslationsTable } from "@/types/translations";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
@@ -15,6 +17,7 @@ interface TableProps {
 
 const Table = ({ estimationData, processing, domainName, years, translations }: TableProps) => {
   const { addDomain } = useCart()
+  const { vat, includeVAT } = useVAT()
 
   const handleAddToCart = (estimationEl: EstimationData) => {
     addDomain({
@@ -97,13 +100,13 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
                       <div className="text-sm text-gray-900">{domainName}{el.detail.domain}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {el.detail.priceReg} {translations.currencyCZK}{translations.priceDuration}
+                      {calculatePrice(el.detail.priceReg, includeVAT, vat)} {translations.currencyCZK}{translations.priceDuration}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {el.detail.priceRen} {translations.currencyCZK}{translations.priceDuration}
+                      {calculatePrice(el.detail.priceRen, includeVAT, vat)} {translations.currencyCZK}{translations.priceDuration}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {el.detail.priceReg + (years - 1) * el.detail.priceRen} {translations.currencyCZK}
+                      {calculatePrice(el.detail.priceReg + (years - 1) * el.detail.priceRen, includeVAT, vat)} {translations.currencyCZK}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <a href="#" className="text-indigo-600 hover:text-indigo-900">

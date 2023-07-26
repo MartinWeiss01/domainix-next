@@ -1,5 +1,7 @@
 'use client'
 
+import { calculatePrice } from "@/libs/utilities"
+import { useVAT } from "@/store/vat"
 import { ObjectStructure } from "@/types/apiResponse"
 import { ITranslationsDetail } from "@/types/translations"
 
@@ -9,6 +11,8 @@ interface RegistrarDetailProps {
 }
 
 const RegistrarDetail = ({ data, translations }: RegistrarDetailProps) => {
+  const { vat, includeVAT } = useVAT()
+
   return (
     <>
       <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight mb-4">{translations.title}</h2>
@@ -34,10 +38,10 @@ const RegistrarDetail = ({ data, translations }: RegistrarDetailProps) => {
                   <div className="text-sm text-gray-900 font-medium">{domain.domain}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {domain.priceReg} {translations.currencyCZK}{translations.priceDuration}
+                  {calculatePrice(domain.priceReg, includeVAT, vat)} {translations.currencyCZK}{translations.priceDuration}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {domain.priceRen} {translations.currencyCZK}{translations.priceDuration}
+                  {calculatePrice(domain.priceRen, includeVAT, vat)} {translations.currencyCZK}{translations.priceDuration}
                 </td>
               </tr>
             ))}
