@@ -27,3 +27,7 @@ export const findTLDRegistrars = (data: APIResponse, selectedTLD: string): Estim
 export function classNames(...classes: (string | boolean)[]): string {
   return classes.filter(Boolean).join(" ");
 }
+
+export const calculatePrice = (price: number, includeVAT: boolean, vat: number): string => {
+  return includeVAT ? (price * (1 + vat / 100)).toFixed(2) : price.toFixed(2)
+}
