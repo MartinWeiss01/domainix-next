@@ -1,5 +1,5 @@
 'use client'
-import { Disclosure, Menu, Transition } from "@headlessui/react"
+import { Disclosure, Menu, Switch, Transition } from "@headlessui/react"
 import { XMarkIcon, Cog6ToothIcon, Bars3Icon } from "@heroicons/react/24/outline"
 import { Fragment } from "react"
 import { classNames } from "@/libs/utilities"
@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation"
 import { ITranslationsNavbar } from "@/types/translations"
 import { i18n, Locale } from "@/i18n-config"
 import { changeURLLanguage, getLocalizedURL, getPathnameWithoutLanguage } from "@/libs/linkLocalizer"
+import { useVAT } from "@/store/vat"
 
 interface INavLink {
   name: string
@@ -39,6 +40,7 @@ const Navbar = ({
   locale: Locale
 }) => {
   const pathname = usePathname()
+  const { includeVAT, setIncludeVAT, vat, setVAT } = useVAT()
 
   return (
     <Disclosure as="nav" className="flex-shrink-0 bg-white border-b border-gray-200">
@@ -135,30 +137,38 @@ const Navbar = ({
                             </div>
                           </Menu.Item>
                           <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700",
-                                )}
-                              >
-                                {translations.vatInclude}
-                              </a>
-                            )}
+                            <div
+                              className="flex justify-between items-center px-4 py-2 text-sm text-gray-700"
+                            >
+                              <span>{translations.vatInclude}</span>
+                              <div className="flex space-x-2">
+                                <Switch
+                                  checked={includeVAT}
+                                  onChange={() => setIncludeVAT(!includeVAT)}
+                                  className={`${includeVAT ? 'bg-primary-700' : 'bg-gray-300'} relative inline-flex flex-shrink-0 h-4 w-8 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                                >
+                                  <span aria-hidden="true" className={`${includeVAT ? 'translate-x-4' : 'translate-x-0'} pointer-events-none inline-block h-3 w-3 rounded-full bg-white transform ring-0 transition ease-in-out duration-200`} />
+                                </Switch>
+                              </div>
+                            </div>
                           </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700",
-                                )}
-                              >
-                                {translations.vatValue}
-                              </a>
-                            )}
+                          <Menu.Item disabled>
+                            <div
+                              className="flex justify-between items-center px-4 py-2 text-sm text-gray-700"
+                            >
+                              <span>{translations.vatValue}</span>
+                              <div className="flex items-center space-x-2">
+                                <input
+                                  type="number"
+                                  value={vat}
+                                  onChange={e => setVAT(Number(e.target.value))}
+                                  className="w-16 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
+                                />
+                                <span>
+                                  %
+                                </span>
+                              </div>
+                            </div>
                           </Menu.Item>
                         </Menu.Items>
                       </Transition>
@@ -207,11 +217,8 @@ const Navbar = ({
                 </div>
               </div>
               <div className="mt-3 space-y-1">
-                <div
-                  className="flex justify-between px-4 py-2 text-base font-medium text-gray-500"
-                >
+                <div className="flex justify-between px-4 py-2 text-base font-medium text-gray-500">
                   <span>{translations.language}</span>
-
                   <div className="flex space-x-2">
                     {i18n.navbar.map(lang => (
                       <Link
@@ -234,18 +241,40 @@ const Navbar = ({
                     ))}
                   </div>
                 </div>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                >
-                  {translations.vatInclude}
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                >
-                  {translations.vatValue}
-                </a>
+
+
+
+                <div className="flex justify-between px-4 py-2 text-base font-medium text-gray-500">
+                  <span>{translations.vatInclude}</span>
+                  <div className="flex space-x-2">
+                    <Switch
+                      checked={includeVAT}
+                      onChange={() => setIncludeVAT(!includeVAT)}
+                      className={`${includeVAT ? 'bg-primary-700' : 'bg-gray-300'} relative inline-flex flex-shrink-0 h-4 w-8 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                    >
+                      <span aria-hidden="true" className={`${includeVAT ? 'translate-x-4' : 'translate-x-0'} pointer-events-none inline-block h-3 w-3 rounded-full bg-white transform ring-0 transition ease-in-out duration-200`} />
+                    </Switch>
+                  </div>
+                </div>
+
+
+
+                <div className="flex justify-between px-4 py-2 text-base font-medium text-gray-500">
+                  <span>{translations.vatValue}</span>
+                  <div className="flex space-x-2">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="number"
+                        value={vat}
+                        onChange={e => setVAT(Number(e.target.value))}
+                        className="w-16 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
+                      />
+                      <span>
+                        %
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </Disclosure.Panel>
