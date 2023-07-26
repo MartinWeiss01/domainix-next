@@ -7,20 +7,18 @@ export interface APIResponse {
 export interface ObjectStructure {
   rid: number;
   date: number;
+  vat: boolean | string;
   domains: TLD[];
-  name?: string;
-  slug?: string;
-  updated?: string;
 }
 
 export interface TLD {
   domain: string;
   priceReg: number;
   priceRen: number;
-  priceTransfer?: number;
-  minimumPeriodReg?: number;
-  minimumPeriodRenewal?: number;
+  priceTransfer?: number | null;
   minimumPeriod?: number;
+  minimumPeriodRenewal?: number;
+  maxPeriod?: number;
 }
 
 export interface Registrar {
