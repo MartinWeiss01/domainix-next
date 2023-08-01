@@ -56,11 +56,11 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
 
       <div className="flex flex-col space-y-1">
 
-        <label htmlFor="domain" className="xs:block text-sm font-medium leading-6 text-white hidden">
+        <label htmlFor="domain" className="xs:block text-sm font-medium leading-6 text-gray-200 hidden">
           {translations.domain.label}
         </label>
         <div className="flex flex-col xs:flex-row w-full space-y-2 xs:space-y-0 shadow-xl">
-          <label htmlFor="domain" className="block text-sm font-medium leading-6 text-white xs:hidden">
+          <label htmlFor="domain" className="block text-sm font-medium leading-6 text-gray-200 xs:hidden">
             {translations.domain.label}
           </label>
           <input
@@ -73,7 +73,7 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
             className="border border-gray-100 xs:border-0 px-5 py-4 text-sm md:font-semibold bg-white/10 text-white outline-0 w-full rounded xs:rounded-l-lg xs:rounded-r-none"
           />
 
-          <label htmlFor="tld" className="block text-sm font-medium leading-6 text-white xs:hidden">
+          <label htmlFor="tld" className="block text-sm font-medium leading-6 text-gray-200 xs:hidden">
             {translations.tld.label}
           </label>
           <input
@@ -96,7 +96,7 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
 
       <div className="flex items-center space-x-3 w-full">
         <div className="flex flex-col space-y-1 w-full">
-          <label htmlFor="years" className="block text-sm font-medium leading-6 text-white">
+          <label htmlFor="years" className="block text-sm font-medium leading-6 text-gray-200">
             {translations.years}
           </label>
 
@@ -106,7 +106,7 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
               id="years"
               className="w-full range-slider"
               type="range" min="1" max="10" value={formData.years} onChange={(e) => setFormData(prev => ({ ...prev, years: parseInt(e.target.value) }))} />
-            <div className="flex justify-between text-xs mt-3 text-white">
+            <div className="flex justify-between text-xs mt-3 text-gray-200">
               <span className="w-4 h-4 flex items-center justify-center">1</span>
               <span className="hidden w-4 h-4 xs:flex items-center justify-center">2</span>
               <span className="hidden w-4 h-4 xs:flex items-center justify-center">3</span>
@@ -120,7 +120,7 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
             </div>
           </div>
         </div>
-        <div className="border flex items-center p-1 w-9 h-9 justify-center font-semibold uppercase text-sm text-white">
+        <div className="border border-gray-500 flex items-center p-1 w-9 h-9 justify-center font-semibold uppercase text-sm text-white">
           {formData.years}
         </div>
       </div>
