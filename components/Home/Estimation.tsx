@@ -26,7 +26,7 @@ const Estimation = ({ data, availableTLDs, translations }: EstimationProps) => {
       // Prevent batching
       setProcessing(() => true)
     })
-    const tldRegistrars = findTLDRegistrars(data, formData.tld)
+    const tldRegistrars = findTLDRegistrars(data, formData.tld, formData.years)
     setEstimationData(() => tldRegistrars)
     setDomainName(() => formData.domain)
     setYears(() => formData.years)
@@ -42,7 +42,9 @@ const Estimation = ({ data, availableTLDs, translations }: EstimationProps) => {
             <div className="h-full py-6 px-4 sm:px-6 lg:px-8">
               <div className="relative h-full space-y-6" style={{ minHeight: "36rem" }}>
                 <Form availableTLDs={availableTLDs} findAction={handleFormSubmit} processing={processing} translations={translations.form} />
-                <Table estimationData={estimationData} processing={processing} years={years} domainName={domainName} translations={translations.table} />
+                {estimationData.length > 0 &&
+                  <Table estimationData={estimationData} processing={processing} years={years} domainName={domainName} translations={translations.table} />
+                }
               </div>
             </div>
           </div>
