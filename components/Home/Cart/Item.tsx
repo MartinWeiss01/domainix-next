@@ -21,7 +21,7 @@ const CartItem = ({
   return (
     <div className="flex flex-col space-y-1">
       <div className="flex justify-between items-start">
-        <span className="font-semibold">
+        <span className="font-semibold truncate w-full">
           {item.selectedDomain}{item.detail.domain}
         </span>
 
