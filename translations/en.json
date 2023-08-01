@@ -50,7 +50,7 @@
       "priceTotal": "Total",
       "currencyCZK": "CZK",
       "emptyTitle": "There are no domains yet.",
-      "emptyDescription": "Please add some domains to the cart.",
+      "emptyDescription": "Add domains to the list using a table.",
       "item": {
         "currencyCZK": "CZK",
         "pluralOne": "year",
