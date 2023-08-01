@@ -24,7 +24,7 @@ export default async function RootLayout({
   return (
     <html lang={params.lang}>
       <body className={inter.className}>
-        <Navbar translations={translations.navbar} locale={params.lang} />
+        <Navbar translations={translations.navbar} locale={params.lang} cartTranslations={translations.estimation.cart} />
         {children}
         <Footer translations={translations.footer} />
       </body>

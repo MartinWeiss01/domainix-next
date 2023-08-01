@@ -1,14 +1,15 @@
 'use client'
-import { Disclosure, Menu, Switch, Transition } from "@headlessui/react"
-import { XMarkIcon, Cog6ToothIcon, Bars3Icon } from "@heroicons/react/24/outline"
+import { Disclosure, Menu, Popover, Switch, Transition } from "@headlessui/react"
+import { XMarkIcon, Cog6ToothIcon, Bars3Icon, ClipboardDocumentListIcon } from "@heroicons/react/24/outline"
 import { Fragment } from "react"
 import { classNames } from "@/libs/utilities"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ITranslationsNavbar } from "@/types/translations"
+import { ITranslationsCart, ITranslationsNavbar } from "@/types/translations"
 import { i18n, Locale } from "@/i18n-config"
 import { changeURLLanguage, getLocalizedURL, getPathnameWithoutLanguage } from "@/libs/linkLocalizer"
 import { useVAT } from "@/store/vat"
+import Cart from "../Home/Cart"
 
 interface INavLink {
   name: string
@@ -34,10 +35,12 @@ const navlinks: INavLink[] = [
 
 const Navbar = ({
   translations,
-  locale
+  locale,
+  cartTranslations
 }: {
   translations: ITranslationsNavbar,
-  locale: Locale
+  locale: Locale,
+  cartTranslations: ITranslationsCart
 }) => {
   const pathname = usePathname()
   const { includeVAT, setIncludeVAT, vat, setVAT } = useVAT()
@@ -85,8 +88,51 @@ const Navbar = ({
                 </div>
               </div>
 
-              <div className="hidden sm:ml-6 sm:flex sm:items-center">
-                <Menu as="div" className="ml-3 relative z-10">
+              <div className="sm:ml-6 flex items-center space-x-2">
+                <Popover className="lg:hidden">
+                  {({ open }) => (
+                    <>
+                      <Popover.Button
+                        className={classNames(
+                          "group max-w-xs p-1 bg-white flex items-center text-sm text-slate-600 rounded-full hover:text-primary-900 hover:bg-primary-400 hover:bg-opacity-10 focus:outline-none",
+                          open && "hover:text-primary-900 hover:bg-primary-400 hover:bg-opacity-10"
+                        )}
+                      >
+                        <ClipboardDocumentListIcon className="h-6 w-6 transition-all duration-1000" />
+                      </Popover.Button>
+
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="opacity-0 translate-y-1"
+                        enterTo="opacity-100 translate-y-0"
+                        leave="transition ease-in duration-150"
+                        leaveFrom="opacity-100 translate-y-0"
+                        leaveTo="opacity-0 translate-y-1"
+                      >
+                        <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
+                          <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-gray-300 bg-gray-50 px-4 py-2">
+                            <Cart translations={cartTranslations} />
+                          </div>
+                        </Popover.Panel>
+                      </Transition>
+                    </>
+                  )}
+                </Popover>
+
+                <div className="flex items-center sm:hidden">
+                  {/* Mobile menu button */}
+                  <Disclosure.Button className="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    <span className="sr-only">{translations.menuOpen}</span>
+                    {open ? (
+                      <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                    ) : (
+                      <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                    )}
+                  </Disclosure.Button>
+                </div>
+
+                <Menu as="div" className="hidden sm:block ml-3 relative z-10">
                   {({ open }) => (
                     <>
                       <div>
@@ -175,17 +221,6 @@ const Navbar = ({
                     </>
                   )}
                 </Menu>
-              </div>
-              <div className="-mr-2 flex items-center sm:hidden">
-                {/* Mobile menu button */}
-                <Disclosure.Button className="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                  <span className="sr-only">{translations.menuOpen}</span>
-                  {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </Disclosure.Button>
               </div>
             </div>
           </div>
