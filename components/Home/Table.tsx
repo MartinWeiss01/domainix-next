@@ -108,16 +108,16 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">{domainName}{el.detail.domain}</div>
                     </td>
-                    <td className="pl-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {calculatePrice(el.detail.priceReg, includeVAT, vat)} {translations.currencyCZK}
                     </td>
-                    <td className="pr-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {calculatePrice(el.detail.priceRen, includeVAT, vat)} {translations.currencyCZK}
                     </td>
-                    <td className="py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {calculatePrice(el.detail.priceReg + (years - 1) * el.detail.priceRen, includeVAT, vat)} {translations.currencyCZK}
                     </td>
-                    <td className="pr-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <a href="#" className="text-primary-600 hover:text-primary-900">
                         <button onClick={() => handleAddToCart(el)}>
                           <PlusIcon className="h-5 w-5" />
