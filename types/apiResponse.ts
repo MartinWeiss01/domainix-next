@@ -27,4 +27,10 @@ export interface Registrar {
   slug: string;
   url: string;
   img: string;
+  currency: CurrencyEnum;
+}
+
+export enum CurrencyEnum {
+  Czk = "CZK",
+  Usd = "USD",
 }
