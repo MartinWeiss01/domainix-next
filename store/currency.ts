@@ -18,16 +18,23 @@ export const DEFAULT_CURRENCIES_AVAILABLE: Currency[] = [
 ]
 
 export const useCurrency = create<ICurrency>((set, get) => ({
-  currencies: [],
+  currencies: DEFAULT_CURRENCIES_AVAILABLE,
   selectedCurrency: null,
   setCurrencies: (currencies) => set({ currencies }),
   setSelectedCurrency: (currency) => set({ selectedCurrency: currency }),
   getDefaultCurrency: () => get().currencies[0],
   getExchangeRate: (fromCurrency, toCurrency) => {
-    const baseCurrency = get().getDefaultCurrency().name;
-    const fromRate = fromCurrency === baseCurrency ? 1 : get().currencies.find((c) => c.name === fromCurrency)?.value || 1;
-    const toRate = toCurrency === baseCurrency ? 1 : get().currencies.find((c) => c.name === toCurrency)?.value || 1;
-    return fromRate / toRate;
+    if (fromCurrency === toCurrency) return 1
+    const baseCurrency: string | undefined = get().currencies.find(currency => currency.value === 1)?.name;
+    if (!baseCurrency) return 1
+
+    const toRate: number = get().currencies.find(currency => currency.name === toCurrency)?.value || 1
+    if (fromCurrency === baseCurrency) return toRate
+
+    const fromRate: number = get().currencies.find(currency => currency.name === fromCurrency)?.value || 1
+    if (toCurrency === baseCurrency) return 1 / fromRate
+
+    return toRate * (1 / fromRate)
   },
   convertPrice: (price, fromCurrency, toCurrency) => {
     const selectedCurrency = toCurrency || get().selectedCurrency?.name || get().getDefaultCurrency().name;
