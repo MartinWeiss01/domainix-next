@@ -16,6 +16,8 @@
         "colRegPrice": "Registrační cena",
         "colRenPrice": "Prodloužení",
         "currencyCZK": "Kč",
+        "currencyUSD": "$",
+        "currencyEUR": "€",
         "priceDuration": "/rok"
       }
     }
@@ -43,16 +45,22 @@
       "colTotalPrice": "Celkem",
       "colAddToCart": "Přidat do košíku",
       "currencyCZK": "Kč",
+      "currencyUSD": "$",
+      "currencyEUR": "€",
       "priceDuration": "/rok"
     },
     "cart": {
       "title": "Shrnutí",
       "priceTotal": "Celkem",
       "currencyCZK": "Kč",
+      "currencyUSD": "$",
+      "currencyEUR": "€",
       "emptyTitle": "Žádné domény",
       "emptyDescription": "Přidejte domény do seznamu pomocí tabulky.",
       "item": {
         "currencyCZK": "Kč",
+        "currencyUSD": "$",
+        "currencyEUR": "€",
         "pluralOne": "rok",
         "pluralFew": "roky",
         "pluralOther": "let"

@@ -15,6 +15,8 @@ export interface ITranslationsCart {
   title: string;
   priceTotal: string;
   currencyCZK: string;
+  currencyUSD: string;
+  currencyEUR: string;
   emptyTitle: string;
   emptyDescription: string;
   item: ITranslationsItem;
@@ -22,9 +24,12 @@ export interface ITranslationsCart {
 
 export interface ITranslationsItem {
   currencyCZK: string;
+  currencyUSD: string;
+  currencyEUR: string;
   pluralOne: string;
   pluralFew: string;
   pluralOther: string;
+  [key: string]: string;
 }
 
 export interface ITranslationsForm {
@@ -49,7 +54,10 @@ export interface ITranslationsTable {
   colTotalPrice: string;
   colAddToCart: string;
   currencyCZK: string;
+  currencyUSD: string;
+  currencyEUR: string;
   priceDuration: string;
+  [key: string]: string;
 }
 
 export interface ITranslationsFooter {
@@ -94,7 +102,10 @@ export interface ITranslationsDetail {
   colRegPrice: string;
   colRenPrice: string;
   currencyCZK: string;
+  currencyUSD: string;
+  currencyEUR: string;
   priceDuration: string;
+  [key: string]: string;
 }
 
 export interface ITranslationsList {
