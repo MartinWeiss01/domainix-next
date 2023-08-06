@@ -1,7 +1,7 @@
 'use client'
 import { Disclosure, Menu, Popover, Switch, Transition } from "@headlessui/react"
-import { XMarkIcon, Cog6ToothIcon, Bars3Icon, ClipboardDocumentListIcon } from "@heroicons/react/24/outline"
-import { Fragment } from "react"
+import { XMarkIcon, Cog6ToothIcon, Bars3Icon, ClipboardDocumentListIcon, CurrencyEuroIcon } from "@heroicons/react/24/outline"
+import { Fragment, useEffect } from "react"
 import { classNames } from "@/libs/utilities"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -10,6 +10,8 @@ import { i18n, Locale } from "@/i18n-config"
 import { changeURLLanguage, getLocalizedURL, getPathnameWithoutLanguage } from "@/libs/linkLocalizer"
 import { useVAT } from "@/store/vat"
 import Cart from "../Home/Cart"
+import { Currency } from "@/types/currenciesApiResponse"
+import { useCurrency } from "@/store/currency"
 
 interface INavLink {
   name: string
@@ -36,14 +38,27 @@ const navlinks: INavLink[] = [
 const Navbar = ({
   translations,
   locale,
-  cartTranslations
+  cartTranslations,
+  availableCurrencies
 }: {
   translations: ITranslationsNavbar,
   locale: Locale,
-  cartTranslations: ITranslationsCart
+  cartTranslations: ITranslationsCart,
+  availableCurrencies: Currency[]
 }) => {
   const pathname = usePathname()
   const { includeVAT, setIncludeVAT, vat, setVAT } = useVAT()
+  const { currencies, selectedCurrency, setCurrencies, setSelectedCurrency } = useCurrency()
+
+  useEffect(() => {
+    if (
+      selectedCurrency === null &&
+      availableCurrencies.length > 0
+    ) {
+      setCurrencies(availableCurrencies)
+      setSelectedCurrency(availableCurrencies[0])
+    }
+  }, [])
 
   return (
     <Disclosure as="nav" className="flex-shrink-0 bg-white border-b border-gray-200">
@@ -119,6 +134,47 @@ const Navbar = ({
                     </>
                   )}
                 </Popover>
+
+                <Menu as="div" className="ml-3 relative z-10">
+                  {({ open }) => (
+                    <>
+                      <div>
+                        <Menu.Button className="max-w-xs p-1 bg-white flex items-center text-sm text-slate-600 rounded-full hover:text-primary-900 hover:bg-primary-400 hover:bg-opacity-10 focus:outline-none">
+                          <CurrencyEuroIcon className="h-6 w-6 transition-all duration-1000" />
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        show={open}
+                        as={Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items
+                          static
+                          className="origin-top-right absolute right-0 mt-2 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        >
+                          {currencies.map(currency => (
+                            <Menu.Item key={currency.name}>
+                              <div
+                                className={classNames(
+                                  "flex px-4 py-2 text-sm text-gray-700",
+                                  currency.name === selectedCurrency?.name ? "bg-primary-500 text-white font-bold" : "hover:bg-gray-100"
+                                )}
+                                onClick={() => setSelectedCurrency(currency)}
+                              >
+                                <span>{currency.name}</span>
+                              </div>
+                            </Menu.Item>
+                          ))}
+                        </Menu.Items>
+                      </Transition>
+                    </>
+                  )}
+                </Menu>
 
                 <div className="flex items-center sm:hidden">
                   {/* Mobile menu button */}

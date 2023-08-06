@@ -20,7 +20,7 @@ const DetailPageSync = ({ translations, registrarId }: { translations: ITranslat
       return (
         <TwoColumnLayout
           leftColumn={<RegistrarCard registrar={registrar} updateDate={data.date} totalTLD={data.domains.length} translations={translations.card} />}
-          rightColumn={<RegistrarDetail data={data} translations={translations.detail} />}
+          rightColumn={<RegistrarDetail data={data} translations={translations.detail} defaultCurrency={registrar.currency} />}
         />
       )
     } else {

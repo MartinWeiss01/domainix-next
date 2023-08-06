@@ -16,6 +16,8 @@
         "colRegPrice": "Registration Price",
         "colRenPrice": "Renewal Price",
         "currencyCZK": "CZK",
+        "currencyUSD": "USD",
+        "currencyEUR": "EUR",
         "priceDuration": " per year"
       }
     }
@@ -43,16 +45,19 @@
       "colTotalPrice": "Total Price",
       "colAddToCart": "Add to Cart",
       "currencyCZK": "CZK",
+      "currencyUSD": "USD",
+      "currencyEUR": "EUR",
       "priceDuration": " per year"
     },
     "cart": {
       "title": "Summary",
       "priceTotal": "Total",
       "currencyCZK": "CZK",
+      "currencyUSD": "USD",
+      "currencyEUR": "EUR",
       "emptyTitle": "There are no domains yet.",
       "emptyDescription": "Add domains to the list using a table.",
       "item": {
-        "currencyCZK": "CZK",
         "pluralOne": "year",
         "pluralFew": "years",
         "pluralOther": "years"

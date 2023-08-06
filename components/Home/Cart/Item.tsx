@@ -5,6 +5,7 @@ import { CartData } from "@/types/cart"
 import { ITranslationsItem } from "@/types/translations"
 import { calculatePrice } from "@/libs/utilities"
 import { useVAT } from "@/store/vat"
+import { useCurrency } from "@/store/currency"
 
 const CartItem = ({
   item,
@@ -17,6 +18,7 @@ const CartItem = ({
 }) => {
   const { increaseYear, removeDomain } = useCart()
   const { includeVAT, vat } = useVAT()
+  const { convertPrice } = useCurrency()
 
   return (
     <div className="flex flex-col space-y-1">
@@ -34,7 +36,7 @@ const CartItem = ({
         <div className="flex flex-col">
           <small>{item.registrar.name}</small>
           <small>
-            {calculatePrice(item.detail.priceReg + (item.years - 1) * item.detail.priceRen, includeVAT, vat)} {currency}
+            {calculatePrice(convertPrice((item.detail.priceReg + (item.years - 1) * item.detail.priceRen), item.registrar.currency), includeVAT, vat)} {currency}
           </small>
         </div>
 
