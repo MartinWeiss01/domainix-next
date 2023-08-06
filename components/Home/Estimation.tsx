@@ -8,6 +8,7 @@ import { findTLDRegistrars } from '@/libs/utilities'
 import { flushSync } from 'react-dom'
 import Cart from './Cart'
 import { ITranslationsEstimation } from '@/types/translations'
+import { useCurrency } from '@/store/currency'
 
 interface EstimationProps {
   data: APIResponse
@@ -20,13 +21,14 @@ const Estimation = ({ data, availableTLDs, translations }: EstimationProps) => {
   const [estimationData, setEstimationData] = useState<EstimationData[]>([])
   const [domainName, setDomainName] = useState('')
   const [years, setYears] = useState(1)
+  const { currencies, selectedCurrency, getDefaultCurrency } = useCurrency()
 
   const handleFormSubmit = useCallback((formData: FormState) => {
     flushSync(() => {
       // Prevent batching
       setProcessing(() => true)
     })
-    const tldRegistrars = findTLDRegistrars(data, formData.tld, formData.years)
+    const tldRegistrars = findTLDRegistrars(data, formData.tld, formData.years, currencies, selectedCurrency?.name || getDefaultCurrency().name)
     setEstimationData(() => tldRegistrars)
     setDomainName(() => formData.domain)
     setYears(() => formData.years)
