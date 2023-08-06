@@ -20,12 +20,10 @@ export interface ITranslationsCart {
   emptyTitle: string;
   emptyDescription: string;
   item: ITranslationsItem;
+  [key: string]: any;
 }
 
 export interface ITranslationsItem {
-  currencyCZK: string;
-  currencyUSD: string;
-  currencyEUR: string;
   pluralOne: string;
   pluralFew: string;
   pluralOther: string;

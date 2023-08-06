@@ -1,17 +1,20 @@
 'use client'
 
 import { calculatePrice } from "@/libs/utilities"
+import { useCurrency } from "@/store/currency"
 import { useVAT } from "@/store/vat"
-import { ObjectStructure } from "@/types/apiResponse"
+import { CurrencyEnum, ObjectStructure } from "@/types/apiResponse"
 import { ITranslationsDetail } from "@/types/translations"
 
 interface RegistrarDetailProps {
   data: ObjectStructure
   translations: ITranslationsDetail
+  defaultCurrency: CurrencyEnum
 }
 
-const RegistrarDetail = ({ data, translations }: RegistrarDetailProps) => {
+const RegistrarDetail = ({ data, translations, defaultCurrency }: RegistrarDetailProps) => {
   const { vat, includeVAT } = useVAT()
+  const { selectedCurrency, convertPrice } = useCurrency()
 
   return (
     <>
@@ -32,19 +35,43 @@ const RegistrarDetail = ({ data, translations }: RegistrarDetailProps) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {data?.domains?.map(domain => (
-              <tr key={domain.domain}>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900 font-medium">{domain.domain}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {calculatePrice(domain.priceReg, includeVAT, vat)} {translations.currencyCZK}{translations.priceDuration}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {calculatePrice(domain.priceRen, includeVAT, vat)} {translations.currencyCZK}{translations.priceDuration}
-                </td>
-              </tr>
-            ))}
+            {data?.domains?.map(domain => {
+              const regPriceOriginal = calculatePrice(domain.priceReg, includeVAT, vat)
+              const regPrice = calculatePrice(convertPrice(domain.priceReg, defaultCurrency), includeVAT, vat)
+              const renPriceOriginal = calculatePrice(domain.priceRen, includeVAT, vat)
+              const renPrice = calculatePrice(convertPrice(domain.priceRen, defaultCurrency), includeVAT, vat)
+              return (
+                <tr key={domain.domain}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900 font-medium">{domain.domain}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div className="flex flex-col">
+                      <span>
+                        {regPrice} {translations[`currency${selectedCurrency?.name}`]}{translations.priceDuration}
+                      </span>
+                      {defaultCurrency !== selectedCurrency?.name &&
+                        <small>
+                          {regPriceOriginal} {translations[`currency${defaultCurrency}`]}{translations.priceDuration}
+                        </small>
+                      }
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div className="flex flex-col">
+                      <span>
+                        {renPrice} {translations[`currency${selectedCurrency?.name}`]}{translations.priceDuration}
+                      </span>
+                      {defaultCurrency !== selectedCurrency?.name &&
+                        <small>
+                          {renPriceOriginal} {translations[`currency${defaultCurrency}`]}{translations.priceDuration}
+                        </small>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>

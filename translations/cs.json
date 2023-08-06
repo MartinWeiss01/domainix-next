@@ -58,9 +58,6 @@
       "emptyTitle": "Žádné domény",
       "emptyDescription": "Přidejte domény do seznamu pomocí tabulky.",
       "item": {
-        "currencyCZK": "Kč",
-        "currencyUSD": "$",
-        "currencyEUR": "€",
         "pluralOne": "rok",
         "pluralFew": "roky",
         "pluralOther": "let"

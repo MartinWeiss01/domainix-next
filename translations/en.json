@@ -58,9 +58,6 @@
       "emptyTitle": "There are no domains yet.",
       "emptyDescription": "Add domains to the list using a table.",
       "item": {
-        "currencyCZK": "CZK",
-        "currencyUSD": "USD",
-        "currencyEUR": "EUR",
         "pluralOne": "year",
         "pluralFew": "years",
         "pluralOther": "years"
