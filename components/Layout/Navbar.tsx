@@ -1,15 +1,11 @@
 'use client'
-import { Disclosure, Menu, Popover, Switch, Transition } from "@headlessui/react"
-import { XMarkIcon, Cog6ToothIcon, Bars3Icon, ClipboardDocumentListIcon } from "@heroicons/react/24/outline"
-import { Fragment } from "react"
-import { classNames } from "@/libs/utilities"
+import { Disclosure } from "@headlessui/react"
+import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/outline"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ITranslationsCart, ITranslationsNavbar } from "@/types/translations"
-import { i18n, Locale } from "@/i18n-config"
-import { changeURLLanguage, getLocalizedURL, getPathnameWithoutLanguage } from "@/libs/linkLocalizer"
-import { useVAT } from "@/store/vat"
-import Cart from "../Home/Cart"
+import { Locale } from "@/i18n-config"
+import { getLocalizedURL, getPathnameWithoutLanguage } from "@/libs/linkLocalizer"
 import { Currency } from "@/types/currenciesApiResponse"
 import NavLink from "./Navbar/NavLink"
 import CurrencyMenu from "./Navbar/CurrencyMenu"
@@ -18,6 +14,7 @@ import SettingsItemContainer from "./Navbar/Settings/Layout"
 import LanguageSelect from "./Navbar/Settings/LanguageSelect"
 import VATSwitch from "./Navbar/Settings/VATSwitch"
 import VATValue from "./Navbar/Settings/VATValue"
+import SettingsMenu from "./Navbar/SettingsMenu"
 
 interface INavLink {
   name: string
@@ -53,7 +50,6 @@ const Navbar = ({
   availableCurrencies: Currency[]
 }) => {
   const pathname = usePathname()
-  const { vat, setVAT } = useVAT()
 
   return (
     <Disclosure as="nav" className="flex-shrink-0 bg-white border-b border-gray-200">
@@ -61,22 +57,18 @@ const Navbar = ({
         <>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16">
+
+              {/* Left */}
               <div className="flex">
+                {/* Logo */}
                 <div className="flex-shrink-0 flex items-center">
                   <Link href={getLocalizedURL("/")}>
-                    <img
-                      className="block lg:hidden h-8 w-auto"
-                      src="/img/logo-small.svg"
-                      alt="Domainix"
-                    />
-                    <img
-                      className="hidden lg:block h-8 w-auto"
-                      src="/img/logo.svg"
-                      alt="Domainix"
-                    />
+                    <img className="block lg:hidden h-8 w-auto" src="/img/logo-small.svg" alt="Domainix" />
+                    <img className="hidden lg:block h-8 w-auto" src="/img/logo.svg" alt="Domainix" />
                   </Link>
                 </div>
 
+                {/* Desktop Links */}
                 <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                   {navlinks.map(link => (
                     <NavLink
@@ -91,12 +83,13 @@ const Navbar = ({
                 </div>
               </div>
 
+              {/* Right */}
               <div className="sm:ml-6 flex items-center space-x-2">
                 <CartMenu cartTranslations={cartTranslations} />
                 <CurrencyMenu availableCurrencies={availableCurrencies} />
 
+                {/* Mobile menu button */}
                 <div className="flex items-center sm:hidden">
-                  {/* Mobile menu button */}
                   <Disclosure.Button className="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                     <span className="sr-only">{translations.menuOpen}</span>
                     {open ? (
@@ -107,50 +100,7 @@ const Navbar = ({
                   </Disclosure.Button>
                 </div>
 
-                <Menu as="div" className="hidden sm:block ml-3 relative z-10">
-                  {({ open }) => (
-                    <>
-                      <div>
-                        <Menu.Button className="group max-w-xs p-1 bg-white flex items-center text-sm text-slate-600 rounded-full hover:text-primary-900 hover:bg-primary-400 hover:bg-opacity-10 focus:outline-none">
-                          <Cog6ToothIcon className="h-6 w-6 group-hover:rotate-180 group-active:rotate-180 transition-all duration-1000" />
-                        </Menu.Button>
-                      </div>
-                      <Transition
-                        show={open}
-                        as={Fragment}
-                        enter="transition ease-out duration-200"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                      >
-                        <Menu.Items
-                          static
-                          className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                        >
-                          <Menu.Item>
-                            <SettingsItemContainer name={translations.language} size="desktop">
-                              <LanguageSelect locale={locale} size="desktop" />
-                            </SettingsItemContainer>
-                          </Menu.Item>
-
-                          <Menu.Item>
-                            <SettingsItemContainer name={translations.vatInclude} size="desktop">
-                              <VATSwitch />
-                            </SettingsItemContainer>
-                          </Menu.Item>
-
-                          <Menu.Item disabled>
-                            <SettingsItemContainer name={translations.vatValue} size="desktop">
-                              <VATValue />
-                            </SettingsItemContainer>
-                          </Menu.Item>
-                        </Menu.Items>
-                      </Transition>
-                    </>
-                  )}
-                </Menu>
+                <SettingsMenu locale={locale} translations={translations} />
               </div>
             </div>
           </div>
