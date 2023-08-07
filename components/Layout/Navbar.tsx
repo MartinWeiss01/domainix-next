@@ -14,8 +14,9 @@ import { Currency } from "@/types/currenciesApiResponse"
 import NavLink from "./Navbar/NavLink"
 import CurrencyMenu from "./Navbar/CurrencyMenu"
 import CartMenu from "./Navbar/CartMenu"
-import SettingsItemContainer from "./Navbar/Settings/ItemLayout"
+import SettingsItemContainer from "./Navbar/Settings/Layout"
 import LanguageSelect from "./Navbar/Settings/LanguageSelect"
+import VATSwitch from "./Navbar/Settings/VATSwitch"
 
 interface INavLink {
   name: string
@@ -51,7 +52,7 @@ const Navbar = ({
   availableCurrencies: Currency[]
 }) => {
   const pathname = usePathname()
-  const { includeVAT, setIncludeVAT, vat, setVAT } = useVAT()
+  const { vat, setVAT } = useVAT()
 
   return (
     <Disclosure as="nav" className="flex-shrink-0 bg-white border-b border-gray-200">
@@ -132,22 +133,13 @@ const Navbar = ({
                               <LanguageSelect locale={locale} size="desktop" />
                             </SettingsItemContainer>
                           </Menu.Item>
+
                           <Menu.Item>
-                            <div
-                              className="flex justify-between items-center px-4 py-2 text-sm text-gray-700"
-                            >
-                              <span>{translations.vatInclude}</span>
-                              <div className="flex space-x-2">
-                                <Switch
-                                  checked={includeVAT}
-                                  onChange={() => setIncludeVAT(!includeVAT)}
-                                  className={`${includeVAT ? 'bg-primary-700' : 'bg-gray-300'} relative inline-flex flex-shrink-0 h-4 w-8 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-                                >
-                                  <span aria-hidden="true" className={`${includeVAT ? 'translate-x-4' : 'translate-x-0'} pointer-events-none inline-block h-3 w-3 rounded-full bg-white transform ring-0 transition ease-in-out duration-200`} />
-                                </Switch>
-                              </div>
-                            </div>
+                            <SettingsItemContainer name={translations.vatInclude} size="desktop">
+                              <VATSwitch />
+                            </SettingsItemContainer>
                           </Menu.Item>
+
                           <Menu.Item disabled>
                             <div
                               className="flex justify-between items-center px-4 py-2 text-sm text-gray-700"
@@ -199,20 +191,9 @@ const Navbar = ({
                   <LanguageSelect locale={locale} size="phone" />
                 </SettingsItemContainer>
 
-
-                <div className="flex justify-between px-4 py-2 text-base font-medium text-gray-500">
-                  <span>{translations.vatInclude}</span>
-                  <div className="flex space-x-2">
-                    <Switch
-                      checked={includeVAT}
-                      onChange={() => setIncludeVAT(!includeVAT)}
-                      className={`${includeVAT ? 'bg-primary-700' : 'bg-gray-300'} relative inline-flex flex-shrink-0 h-4 w-8 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-                    >
-                      <span aria-hidden="true" className={`${includeVAT ? 'translate-x-4' : 'translate-x-0'} pointer-events-none inline-block h-3 w-3 rounded-full bg-white transform ring-0 transition ease-in-out duration-200`} />
-                    </Switch>
-                  </div>
-                </div>
-
+                <SettingsItemContainer name={translations.vatInclude} size="phone">
+                  <VATSwitch />
+                </SettingsItemContainer>
 
 
                 <div className="flex justify-between px-4 py-2 text-base font-medium text-gray-500">
