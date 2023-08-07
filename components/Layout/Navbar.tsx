@@ -17,6 +17,7 @@ import CartMenu from "./Navbar/CartMenu"
 import SettingsItemContainer from "./Navbar/Settings/Layout"
 import LanguageSelect from "./Navbar/Settings/LanguageSelect"
 import VATSwitch from "./Navbar/Settings/VATSwitch"
+import VATValue from "./Navbar/Settings/VATValue"
 
 interface INavLink {
   name: string
@@ -141,22 +142,9 @@ const Navbar = ({
                           </Menu.Item>
 
                           <Menu.Item disabled>
-                            <div
-                              className="flex justify-between items-center px-4 py-2 text-sm text-gray-700"
-                            >
-                              <span>{translations.vatValue}</span>
-                              <div className="flex items-center space-x-2">
-                                <input
-                                  type="number"
-                                  value={vat}
-                                  onChange={e => setVAT(Number(e.target.value))}
-                                  className="w-16 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
-                                />
-                                <span>
-                                  %
-                                </span>
-                              </div>
-                            </div>
+                            <SettingsItemContainer name={translations.vatValue} size="desktop">
+                              <VATValue />
+                            </SettingsItemContainer>
                           </Menu.Item>
                         </Menu.Items>
                       </Transition>
@@ -195,23 +183,9 @@ const Navbar = ({
                   <VATSwitch />
                 </SettingsItemContainer>
 
-
-                <div className="flex justify-between px-4 py-2 text-base font-medium text-gray-500">
-                  <span>{translations.vatValue}</span>
-                  <div className="flex space-x-2">
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="number"
-                        value={vat}
-                        onChange={e => setVAT(Number(e.target.value))}
-                        className="w-16 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
-                      />
-                      <span>
-                        %
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                <SettingsItemContainer name={translations.vatValue} size="phone">
+                  <VATValue />
+                </SettingsItemContainer>
               </div>
             </div>
           </Disclosure.Panel>
