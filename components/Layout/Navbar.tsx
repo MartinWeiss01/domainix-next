@@ -14,6 +14,8 @@ import { Currency } from "@/types/currenciesApiResponse"
 import NavLink from "./Navbar/NavLink"
 import CurrencyMenu from "./Navbar/CurrencyMenu"
 import CartMenu from "./Navbar/CartMenu"
+import SettingsItemContainer from "./Navbar/Settings/ItemLayout"
+import LanguageSelect from "./Navbar/Settings/LanguageSelect"
 
 interface INavLink {
   name: string
@@ -126,32 +128,9 @@ const Navbar = ({
                           className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                         >
                           <Menu.Item>
-                            <div
-                              className="flex justify-between items-center px-4 py-2 text-sm text-gray-700"
-                            >
-                              <span>{translations.language}</span>
-                              <div className="flex space-x-2">
-                                {i18n.navbar.map(lang => (
-                                  <Link
-                                    href={changeURLLanguage(lang.id)}
-                                    key={lang.id}
-                                  >
-                                    <div className="relative h-5 w-5">
-                                      <img
-                                        src={lang.img}
-                                        width="20"
-                                        alt={lang.name}
-                                        title={lang.name}
-                                        className={classNames(
-                                          "rounded-full cursor-pointer absolute inset-0 h-full w-full object-cover border-2",
-                                          lang.id === locale && "border-primary-500"
-                                        )}
-                                      />
-                                    </div>
-                                  </Link>
-                                ))}
-                              </div>
-                            </div>
+                            <SettingsItemContainer name={translations.language} size="desktop">
+                              <LanguageSelect locale={locale} size="desktop" />
+                            </SettingsItemContainer>
                           </Menu.Item>
                           <Menu.Item>
                             <div
@@ -216,31 +195,9 @@ const Navbar = ({
                 </div>
               </div>
               <div className="mt-3 space-y-1">
-                <div className="flex justify-between px-4 py-2 text-base font-medium text-gray-500">
-                  <span>{translations.language}</span>
-                  <div className="flex space-x-2">
-                    {i18n.navbar.map(lang => (
-                      <Link
-                        href={changeURLLanguage(lang.id)}
-                        key={lang.id}
-                      >
-                        <div className="relative h-6 w-6">
-                          <img
-                            src={lang.img}
-                            width="20"
-                            alt={lang.name}
-                            title={lang.name}
-                            className={classNames(
-                              "rounded-full cursor-pointer absolute inset-0 h-full w-full object-cover border-2",
-                              lang.id === locale && "border-primary-500"
-                            )}
-                          />
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
+                <SettingsItemContainer name={translations.language} size="phone">
+                  <LanguageSelect locale={locale} size="phone" />
+                </SettingsItemContainer>
 
 
                 <div className="flex justify-between px-4 py-2 text-base font-medium text-gray-500">
