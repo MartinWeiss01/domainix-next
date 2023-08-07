@@ -12,6 +12,7 @@ import { useVAT } from "@/store/vat"
 import Cart from "../Home/Cart"
 import { Currency } from "@/types/currenciesApiResponse"
 import { useCurrency } from "@/store/currency"
+import NavLink from "./Navbar/NavLink"
 
 interface INavLink {
   name: string
@@ -84,21 +85,14 @@ const Navbar = ({
 
                 <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                   {navlinks.map(link => (
-                    <Link
-                      href={getLocalizedURL(link.href)}
+                    <NavLink
                       key={link.name}
-                      className={
-                        classNames(
-                          link.onlyExact ? (
-                            link.href === getPathnameWithoutLanguage(pathname) ? "border-primary-500 text-gray-900" : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                          ) : (
-                            getPathnameWithoutLanguage(pathname).includes(link.href) ? "border-primary-500 text-gray-900" : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                          ),
-                          "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                        )
-                      }>
+                      href={link.href}
+                      active={link.onlyExact ? link.href === getPathnameWithoutLanguage(pathname) : getPathnameWithoutLanguage(pathname).includes(link.href)}
+                      size="desktop"
+                    >
                       {translations.links[link.translationId]}
-                    </Link>
+                    </NavLink>
                   ))}
                 </div>
               </div>
@@ -284,21 +278,14 @@ const Navbar = ({
           <Disclosure.Panel className="sm:hidden">
             <div className="pt-2 pb-3 space-y-1">
               {navlinks.map(link => (
-                <Link
-                  href={getLocalizedURL(link.href)}
+                <NavLink
                   key={link.name}
-                  className={
-                    classNames(
-                      link.onlyExact ? (
-                        link.href === getPathnameWithoutLanguage(pathname) ? "bg-primary-50 border-primary-500 text-primary-700" : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
-                      ) : (
-                        getPathnameWithoutLanguage(pathname).includes(link.href) ? "bg-primary-50 border-primary-500 text-primary-700" : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
-                      ),
-                      "block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
-                    )
-                  }>
+                  href={link.href}
+                  active={link.onlyExact ? link.href === getPathnameWithoutLanguage(pathname) : getPathnameWithoutLanguage(pathname).includes(link.href)}
+                  size="phone"
+                >
                   {translations.links[link.translationId]}
-                </Link>
+                </NavLink>
               ))}
             </div>
             <div className="pt-4 pb-3 border-t border-gray-200">
