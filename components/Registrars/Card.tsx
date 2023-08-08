@@ -4,6 +4,7 @@ import { Registrar } from "@/types/apiResponse"
 import { ITranslationsCard } from "@/types/translations"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
+import Image from 'next/image'
 
 const RegistrarCard = ({
   registrar,
@@ -23,21 +24,18 @@ const RegistrarCard = ({
       <div className="grid grid-cols-1 gap-4">
         <div className="bg-gray-50 rounded-lg overflow-hidden mb-6 max-w-md">
           <div className="bg-cover bg-center h-32 p-4 flex justify-center items-center">
-            <img className="max-h-full" src={registrar.img}
-              loading="lazy"
-              onError={e => {
-                (e.target as HTMLImageElement).onerror = null;
-                (e.target as HTMLImageElement).src = "/img/logo-placeholder.svg";
-              }}
+            <Image
+              src={registrar.img}
+              alt={registrar.name}
+              width={237}
+              height={72}
             />
           </div>
 
-          <div className="px-4 pb-3 pt-4 bg-gray-100 flex justify-between flex-wrap">
-            <div className="text-xs uppercase font-bold text-gray-600 tracking-wide">
-              {registrar.name}
-            </div>
+          <div className="px-4 pb-3 pt-4 bg-gray-100 flex justify-between flex-wrap items-center text-xs uppercase font-bold text-gray-600 tracking-wide">
+            <span>{registrar.name}</span>
             <Link href={registrar.url} target="_blank">
-              <div className="flex text-xs uppercase font-bold text-gray-600 tracking-wide items-center">
+              <div className="flex items-center space-x-1">
                 <span>{translations.web}</span>
                 <ArrowTopRightOnSquareIcon className="h-4 w-4" />
               </div>
