@@ -16,11 +16,12 @@ const CurrencyMenu = ({ availableCurrencies }: { availableCurrencies: Currency[]
       availableCurrencies.length > 0
     ) {
       setCurrencies(availableCurrencies)
-      setSelectedCurrency(availableCurrencies[0])
+      const defaultCurrency = availableCurrencies.find(currency => currency.name === "USD") || availableCurrencies[0]
+      setSelectedCurrency(defaultCurrency)
     }
   }, [])
 
-  return (
+  if (selectedCurrency !== null) return (
     <Menu as="div" className="ml-3 relative z-10">
       {({ open }) => (
         <>
@@ -63,6 +64,7 @@ const CurrencyMenu = ({ availableCurrencies }: { availableCurrencies: Currency[]
       )}
     </Menu>
   )
+  else return null
 }
 
 export default CurrencyMenu
