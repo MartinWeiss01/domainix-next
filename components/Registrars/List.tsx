@@ -1,5 +1,4 @@
-'use client'
-
+import 'server-only'
 import { Registrar } from "@/types/apiResponse"
 import Link from "next/link"
 import Image from 'next/image'

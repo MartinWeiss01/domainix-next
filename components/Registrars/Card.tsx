@@ -1,5 +1,4 @@
-'use client'
-
+import 'server-only'
 import { Registrar } from "@/types/apiResponse"
 import { ITranslationsCard } from "@/types/translations"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
