@@ -7,8 +7,8 @@ interface IVAT {
   setIncludeVAT: (includeVAT: boolean) => void
 }
 
-const DEFAULT_VAT_VALUE = 21
-const DEFAULT_INCLUDE_VAT = true
+const DEFAULT_VAT_VALUE: number = 21
+const DEFAULT_INCLUDE_VAT: boolean = false
 
 export const useVAT = create<IVAT>(set => ({
   vat: DEFAULT_VAT_VALUE,

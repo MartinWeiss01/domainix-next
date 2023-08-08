@@ -1,3 +1,4 @@
+import 'server-only'
 import Navbar from '@/components/Layout/Navbar'
 import './globals.css'
 import type { Metadata } from 'next'
