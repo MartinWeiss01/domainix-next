@@ -29,7 +29,7 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
 
     setFormData(prev => ({
       ...prev,
-      enabled: (domain.length > 0 && tld.length > 0)
+      enabled: (domain.length > 0 && tld.length > 1)
     }))
   }, [formData.domain, formData.tld])
 
@@ -51,18 +51,23 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
   }
 
   return (
-    <div className="flex flex-col p-6 space-y-4 bg-gradient-to-tl from-gray-900 to-gray-950 rounded-lg">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        if (!formData.enabled) return
+        findAction(formData)
+      }}
+      className="flex flex-col p-6 space-y-6 bg-gradient-to-tl from-gray-900 to-gray-950 rounded-lg"
+    >
       <h2 className="font-bold text-2xl text-white">{translations.title}</h2>
 
-      <div className="flex flex-col space-y-1">
+      <fieldset className="flex flex-col space-y-3">
+        {/* Desktop Label Only */}
+        <label htmlFor="domain" className="xs:block text-sm font-medium leading-6 text-gray-200 hidden">{translations.domain.label}</label>
 
-        <label htmlFor="domain" className="xs:block text-sm font-medium leading-6 text-gray-200 hidden">
-          {translations.domain.label}
-        </label>
         <div className="flex flex-col xs:flex-row w-full space-y-2 xs:space-y-0 shadow-xl">
-          <label htmlFor="domain" className="block text-sm font-medium leading-6 text-gray-200 xs:hidden">
-            {translations.domain.label}
-          </label>
+          {/* Domain name */}
+          <label htmlFor="domain" className="block text-sm font-medium leading-6 text-gray-200 xs:hidden">{translations.domain.label}</label>
           <input
             name="domain"
             id="domain"
@@ -70,12 +75,11 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
             onChange={(e) => handleDomainChange(e)}
             type="text"
             placeholder={translations.domain.placeholder}
-            className="border border-gray-100 xs:border-0 px-5 py-4 text-sm md:font-semibold bg-white/10 text-white outline-0 w-full rounded xs:rounded-l-lg xs:rounded-r-none"
+            className="px-5 py-4 text-sm md:font-semibold bg-white/10 text-white outline-0 w-full rounded xs:rounded-l-lg xs:rounded-r-none"
           />
 
-          <label htmlFor="tld" className="block text-sm font-medium leading-6 text-gray-200 xs:hidden">
-            {translations.tld.label}
-          </label>
+          {/* TLD */}
+          <label htmlFor="tld" className="block text-sm font-medium leading-6 text-gray-200 xs:hidden">{translations.tld.label}</label>
           <input
             name="tld"
             id="tld"
@@ -84,7 +88,7 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
             onChange={(e) => setFormData(prev => ({ ...prev, tld: e.target.value }))}
             list="available-tlds"
             placeholder={translations.tld.placeholder}
-            className="border border-gray-100 xs:border-0 px-3 py-4 text-sm md:font-semibold bg-white/5 text-white outline-0 w-full xs:w-[164px] rounded xs:rounded-r-lg xs:rounded-l-none"
+            className="px-3 py-4 text-sm md:font-semibold bg-white/5 text-white outline-0 w-full xs:w-[164px] rounded xs:rounded-r-lg xs:rounded-l-none"
           />
           <datalist id="available-tlds">
             {availableTLDs.map(el => (
@@ -92,21 +96,27 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
             ))}
           </datalist>
         </div>
-      </div>
+      </fieldset>
 
-      <div className="flex items-center space-x-3 w-full">
-        <div className="flex flex-col space-y-1 w-full">
-          <label htmlFor="years" className="block text-sm font-medium leading-6 text-gray-200">
-            {translations.years}
-          </label>
+      <fieldset className="flex items-center space-x-3 w-full">
+        <div className="flex flex-col space-y-3 w-full">
+          {/* Years */}
+          <label htmlFor="years" className="block text-sm font-medium leading-6 text-gray-200">{translations.years}</label>
 
           <div className="w-full flex flex-col">
             <input
+              value={formData.years}
               name="years"
               id="years"
+              type="range"
+              min="1"
+              max="10"
+              onChange={(e) => setFormData(prev => ({ ...prev, years: parseInt(e.target.value) }))}
               className="w-full range-slider"
-              type="range" min="1" max="10" value={formData.years} onChange={(e) => setFormData(prev => ({ ...prev, years: parseInt(e.target.value) }))} />
-            <div className="flex justify-between text-xs mt-3 text-gray-200">
+            />
+
+            {/* Years Labels */}
+            <p className="flex justify-between text-xs mt-3 text-gray-200">
               <span className="w-4 h-4 flex items-center justify-center">1</span>
               <span className="hidden w-4 h-4 xs:flex items-center justify-center">2</span>
               <span className="hidden w-4 h-4 xs:flex items-center justify-center">3</span>
@@ -117,30 +127,29 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
               <span className="hidden w-4 h-4 xs:flex items-center justify-center">8</span>
               <span className="hidden w-4 h-4 xs:flex items-center justify-center">9</span>
               <span className="w-4 h-4 flex items-center justify-center">10</span>
-            </div>
+            </p>
           </div>
         </div>
-        <div className="border border-gray-500 flex items-center p-1 w-9 h-9 justify-center font-semibold uppercase text-sm text-white">
-          {formData.years}
-        </div>
-      </div>
 
-      <div className="flex justify-end">
-        <button
-          onClick={() => findAction(formData)} disabled={!formData.enabled}
+        <span className="rounded-lg bg-gray-950 flex items-center p-1 w-9 h-9 justify-center font-semibold uppercase text-sm text-white">
+          {formData.years}
+        </span>
+      </fieldset>
+
+      <fieldset className="flex justify-end pt-6">
+        <input
+          value={processing ? translations.processing : translations.button}
+          type="submit"
+          disabled={!formData.enabled}
           className={
             classNames(
-              "mt-6 w-full sm:w-auto py-3 px-5 transition-colors text-white text-sm font-semibold rounded",
-              !formData.enabled ? 'bg-gray-900 hover:bg-black opacity-25 cursor-not-allowed' : 'bg-primary-500 hover:bg-primary-600 focus:bg-primary-700'
+              "w-full sm:w-auto py-3 px-5 transition-colors text-white text-sm font-semibold rounded",
+              !formData.enabled ? 'bg-gray-900 hover:bg-black opacity-25 cursor-not-allowed' : 'bg-primary-500 hover:bg-primary-600 focus:bg-primary-700 cursor-pointer'
             )
           }
-        >
-          {
-            processing ? translations.processing : translations.button
-          }
-        </button>
-      </div>
-    </div>
+        />
+      </fieldset>
+    </form>
   )
 }
 
