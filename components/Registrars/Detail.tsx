@@ -1,6 +1,6 @@
 'use client'
 
-import { calculatePrice } from "@/libs/utilities"
+import { calculatePrice, convertPriceCurrency } from "@/libs/utilities"
 import { useCurrency } from "@/store/currency"
 import { useVAT } from "@/store/vat"
 import { CurrencyEnum, ObjectStructure } from "@/types/apiResponse"
@@ -14,7 +14,8 @@ interface RegistrarDetailProps {
 
 const RegistrarDetail = ({ data, translations, defaultCurrency }: RegistrarDetailProps) => {
   const { vat, includeVAT } = useVAT()
-  const { selectedCurrency, convertPrice } = useCurrency()
+  const { getSelectedCurrency, currencies } = useCurrency()
+  const selectedCurrency = getSelectedCurrency().name
 
   return (
     <>
@@ -37,9 +38,9 @@ const RegistrarDetail = ({ data, translations, defaultCurrency }: RegistrarDetai
           <tbody className="divide-y divide-gray-200">
             {data?.domains?.map(domain => {
               const regPriceOriginal = calculatePrice(domain.priceReg, includeVAT, vat)
-              const regPrice = calculatePrice(convertPrice(domain.priceReg, defaultCurrency), includeVAT, vat)
+              const regPrice = calculatePrice(convertPriceCurrency(domain.priceReg, defaultCurrency, selectedCurrency, currencies), includeVAT, vat)
               const renPriceOriginal = calculatePrice(domain.priceRen, includeVAT, vat)
-              const renPrice = calculatePrice(convertPrice(domain.priceRen, defaultCurrency), includeVAT, vat)
+              const renPrice = calculatePrice(convertPriceCurrency(domain.priceRen, defaultCurrency, selectedCurrency, currencies), includeVAT, vat)
               return (
                 <tr key={domain.domain}>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -48,9 +49,9 @@ const RegistrarDetail = ({ data, translations, defaultCurrency }: RegistrarDetai
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div className="flex flex-col">
                       <span>
-                        {regPrice} {translations[`currency${selectedCurrency?.name}`]}{translations.priceDuration}
+                        {regPrice} {translations[`currency${selectedCurrency}`]}{translations.priceDuration}
                       </span>
-                      {defaultCurrency !== selectedCurrency?.name &&
+                      {defaultCurrency !== selectedCurrency &&
                         <small>
                           {regPriceOriginal} {translations[`currency${defaultCurrency}`]}{translations.priceDuration}
                         </small>
@@ -60,9 +61,9 @@ const RegistrarDetail = ({ data, translations, defaultCurrency }: RegistrarDetai
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div className="flex flex-col">
                       <span>
-                        {renPrice} {translations[`currency${selectedCurrency?.name}`]}{translations.priceDuration}
+                        {renPrice} {translations[`currency${selectedCurrency}`]}{translations.priceDuration}
                       </span>
-                      {defaultCurrency !== selectedCurrency?.name &&
+                      {defaultCurrency !== selectedCurrency &&
                         <small>
                           {renPriceOriginal} {translations[`currency${defaultCurrency}`]}{translations.priceDuration}
                         </small>

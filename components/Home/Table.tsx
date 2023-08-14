@@ -1,7 +1,7 @@
 'use client'
 
 import { getLocalizedURL } from "@/libs/linkLocalizer";
-import { calculatePrice } from "@/libs/utilities";
+import { calculatePrice, convertPriceCurrency } from "@/libs/utilities";
 import { useCart } from "@/store/cart"
 import { useCurrency } from "@/store/currency";
 import { useVAT } from "@/store/vat";
@@ -21,7 +21,8 @@ interface TableProps {
 const Table = ({ estimationData, processing, domainName, years, translations }: TableProps) => {
   const { addDomain } = useCart()
   const { vat, includeVAT } = useVAT()
-  const { selectedCurrency, convertPrice } = useCurrency()
+  const { getSelectedCurrency, currencies } = useCurrency()
+  const selectedCurrency = getSelectedCurrency().name
 
   const handleAddToCart = (estimationEl: EstimationData) => {
     addDomain({
@@ -91,9 +92,9 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
               <tbody className="bg-white divide-y divide-gray-200">
                 {estimationData.map(el => {
                   const prepareTotalPrice = (el.detail.priceReg + (years - 1) * el.detail.priceRen)
-                  const regPrice = calculatePrice(convertPrice(el.detail.priceReg, el.registrar.currency), includeVAT, vat)
-                  const renPrice = calculatePrice(convertPrice(el.detail.priceRen, el.registrar.currency), includeVAT, vat)
-                  const totalPrice = calculatePrice(convertPrice(prepareTotalPrice, el.registrar.currency), includeVAT, vat)
+                  const regPrice = calculatePrice(convertPriceCurrency(el.detail.priceReg, el.registrar.currency, selectedCurrency, currencies), includeVAT, vat)
+                  const renPrice = calculatePrice(convertPriceCurrency(el.detail.priceRen, el.registrar.currency, selectedCurrency, currencies), includeVAT, vat)
+                  const totalPrice = calculatePrice(convertPriceCurrency(prepareTotalPrice, el.registrar.currency, selectedCurrency, currencies), includeVAT, vat)
                   const regPriceOriginal = calculatePrice(el.detail.priceReg, includeVAT, vat)
                   const renPriceOriginal = calculatePrice(el.detail.priceRen, includeVAT, vat)
                   const totalPriceOriginal = calculatePrice(prepareTotalPrice, includeVAT, vat)
@@ -122,9 +123,9 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="flex flex-col">
                           <span>
-                            {regPrice} {translations[`currency${selectedCurrency?.name}`]}
+                            {regPrice} {translations[`currency${selectedCurrency}`]}
                           </span>
-                          {el.registrar.currency !== selectedCurrency?.name &&
+                          {el.registrar.currency !== selectedCurrency &&
                             <small>
                               {regPriceOriginal} {translations[`currency${el.registrar.currency}`]}
                             </small>
@@ -134,9 +135,9 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="flex flex-col">
                           <span>
-                            {renPrice} {translations[`currency${selectedCurrency?.name}`]}
+                            {renPrice} {translations[`currency${selectedCurrency}`]}
                           </span>
-                          {el.registrar.currency !== selectedCurrency?.name &&
+                          {el.registrar.currency !== selectedCurrency &&
                             <small>
                               {renPriceOriginal} {translations[`currency${el.registrar.currency}`]}
                             </small>
@@ -146,9 +147,9 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <div className="flex flex-col">
                           <span>
-                            {totalPrice} {translations[`currency${selectedCurrency?.name}`]}
+                            {totalPrice} {translations[`currency${selectedCurrency}`]}
                           </span>
-                          {el.registrar.currency !== selectedCurrency?.name &&
+                          {el.registrar.currency !== selectedCurrency &&
                             <small>
                               {totalPriceOriginal} {translations[`currency${el.registrar.currency}`]}
                             </small>
