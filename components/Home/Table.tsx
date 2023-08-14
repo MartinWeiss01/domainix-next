@@ -1,5 +1,6 @@
 'use client'
 
+import usePagination from "@/hooks/usePagination";
 import { getLocalizedURL } from "@/libs/linkLocalizer";
 import { calculatePrice, convertPriceCurrency } from "@/libs/utilities";
 import { useCart } from "@/store/cart"
@@ -9,6 +10,7 @@ import { EstimationData } from "@/types/estimation"
 import { ITranslationsTable } from "@/types/translations";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import Pagination from "../Pagination";
 
 interface TableProps {
   estimationData: EstimationData[]
@@ -23,6 +25,7 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
   const { vat, includeVAT } = useVAT()
   const { getSelectedCurrency, currencies } = useCurrency()
   const selectedCurrency = getSelectedCurrency().name
+  const { currentPage, nextPage, previousPage, goToPage, isFirstPage, isLastPage, currentRows, totalPages } = usePagination(estimationData)
 
   const handleAddToCart = (estimationEl: EstimationData) => {
     addDomain({
