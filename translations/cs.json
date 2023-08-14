@@ -47,7 +47,9 @@
       "currencyCZK": "Kč",
       "currencyUSD": "$",
       "currencyEUR": "€",
-      "priceDuration": "/rok"
+      "priceDuration": "/rok",
+      "paginationNext": "Další",
+      "paginationPrevious": "Předchozí"
     },
     "cart": {
       "title": "Shrnutí",

@@ -1,5 +1,6 @@
 'use client'
 
+import usePagination from "@/hooks/usePagination";
 import { getLocalizedURL } from "@/libs/linkLocalizer";
 import { calculatePrice, convertPriceCurrency } from "@/libs/utilities";
 import { useCart } from "@/store/cart"
@@ -9,6 +10,7 @@ import { EstimationData } from "@/types/estimation"
 import { ITranslationsTable } from "@/types/translations";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import Pagination from "../Pagination";
 
 interface TableProps {
   estimationData: EstimationData[]
@@ -23,6 +25,7 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
   const { vat, includeVAT } = useVAT()
   const { getSelectedCurrency, currencies } = useCurrency()
   const selectedCurrency = getSelectedCurrency().name
+  const { currentPage, nextPage, previousPage, goToPage, isFirstPage, isLastPage, currentRows, totalPages } = usePagination(estimationData)
 
   const handleAddToCart = (estimationEl: EstimationData) => {
     addDomain({
@@ -33,10 +36,10 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
   }
 
   return (
-    <div className="flex flex-col">
+    <section className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="overflow-x-auto max-h-[420px] rounded-lg">
+          <div className="overflow-x-auto rounded-lg">
             <table className="min-w-full divide-y divide-gray-200 relative">
               <thead className="bg-gray-50 sticky top-0">
                 <tr>
@@ -90,7 +93,7 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {estimationData.map(el => {
+                {currentRows.map(el => {
                   const prepareTotalPrice = (el.detail.priceReg + (years - 1) * el.detail.priceRen)
                   const regPrice = calculatePrice(convertPriceCurrency(el.detail.priceReg, el.registrar.currency, selectedCurrency, currencies), includeVAT, vat)
                   const renPrice = calculatePrice(convertPriceCurrency(el.detail.priceRen, el.registrar.currency, selectedCurrency, currencies), includeVAT, vat)
@@ -172,7 +175,19 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
           </div>
         </div>
       </div>
-    </div>
+
+      <Pagination
+        currentPage={currentPage}
+        goToPage={goToPage}
+        isFirstPage={isFirstPage}
+        isLastPage={isLastPage}
+        nextPage={nextPage}
+        previousPage={previousPage}
+        totalPages={totalPages}
+        nextText={translations.paginationNext}
+        previousText={translations.paginationPrevious}
+      />
+    </section>
   )
 }
 
