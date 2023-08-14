@@ -55,6 +55,8 @@ export interface ITranslationsTable {
   currencyUSD: string;
   currencyEUR: string;
   priceDuration: string;
+  paginationNext: string;
+  paginationPrevious: string;
   [key: string]: string;
 }
 

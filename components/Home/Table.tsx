@@ -36,7 +36,7 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="overflow-x-auto max-h-[420px] rounded-lg">
+          <div className="overflow-x-auto rounded-lg">
             <table className="min-w-full divide-y divide-gray-200 relative">
               <thead className="bg-gray-50 sticky top-0">
                 <tr>
@@ -90,7 +90,7 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {estimationData.map(el => {
+                {currentRows.map(el => {
                   const prepareTotalPrice = (el.detail.priceReg + (years - 1) * el.detail.priceRen)
                   const regPrice = calculatePrice(convertPriceCurrency(el.detail.priceReg, el.registrar.currency, selectedCurrency, currencies), includeVAT, vat)
                   const renPrice = calculatePrice(convertPriceCurrency(el.detail.priceRen, el.registrar.currency, selectedCurrency, currencies), includeVAT, vat)
@@ -173,6 +173,18 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
         </div>
       </div>
     </div>
+
+      <Pagination
+        currentPage={currentPage}
+        goToPage={goToPage}
+        isFirstPage={isFirstPage}
+        isLastPage={isLastPage}
+        nextPage={nextPage}
+        previousPage={previousPage}
+        totalPages={totalPages}
+        nextText={translations.paginationNext}
+        previousText={translations.paginationPrevious}
+      />
   )
 }
 

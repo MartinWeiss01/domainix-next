@@ -47,7 +47,9 @@
       "currencyCZK": "CZK",
       "currencyUSD": "USD",
       "currencyEUR": "EUR",
-      "priceDuration": " per year"
+      "priceDuration": " per year",
+      "paginationNext": "Next",
+      "paginationPrevious": "Previous"
     },
     "cart": {
       "title": "Summary",
