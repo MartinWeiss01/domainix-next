@@ -15,6 +15,19 @@ interface IPagination {
 
 const VISIBLE_PAGE_RANGE = 5
 
+const ControlButton = ({ onClick, disabled, children }: { onClick: () => void, disabled: boolean, children: React.ReactNode }) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    className={classNames(
+      "flex mt-1 py-1 px-3 gap-x-2 items-center rounded text-sm font-medium text-gray-500 border-t-2 border-transparent transition-colors",
+      disabled ? "cursor-not-allowed opacity-40" : "cursor-pointer hover:bg-gray-100"
+    )}
+  >
+    {children}
+  </button>
+)
+
 const Pagination = ({ currentPage, nextPage, previousPage, goToPage, isFirstPage, isLastPage, totalPages, previousText, nextText }: IPagination) => {
   const visiblePages = () => {
     const pages = []
@@ -24,7 +37,7 @@ const Pagination = ({ currentPage, nextPage, previousPage, goToPage, isFirstPage
           key={i}
           onClick={() => { currentPage !== i && goToPage(i) }}
           className={classNames(
-            "border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium",
+            "border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium transition-colors",
             currentPage === i ? "border-primary-500 text-primary-600" : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 cursor-pointer"
           )}
         >
@@ -37,31 +50,19 @@ const Pagination = ({ currentPage, nextPage, previousPage, goToPage, isFirstPage
 
   return (
     <nav className="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0 select-none">
-      <span
-        onClick={previousPage}
-        className={classNames(
-          "-mt-px flex border-t-2 border-transparent pt-4 pr-1 items-center text-sm font-medium text-gray-500",
-          isFirstPage ? "cursor-not-allowed opacity-40" : "cursor-pointer hover:text-gray-700 hover:border-gray-300"
-        )}
-      >
-        <ArrowLongLeftIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
+      <ControlButton onClick={previousPage} disabled={isFirstPage}>
+        <ArrowLongLeftIcon className="h-5 w-5" aria-hidden="true" />
         {previousText}
-      </span>
+      </ControlButton>
 
       <ul className="hidden md:-mt-px md:flex">
         {visiblePages()}
       </ul>
 
-      <span
-        onClick={nextPage}
-        className={classNames(
-          "-mt-px flex justify-end border-t-2 border-transparent pt-4 pl-1 items-center text-sm font-medium text-gray-500",
-          isLastPage ? "cursor-not-allowed opacity-40" : "cursor-pointer hover:text-gray-700 hover:border-gray-300"
-        )}
-      >
+      <ControlButton onClick={nextPage} disabled={isLastPage}>
         {nextText}
-        <ArrowLongRightIcon className="ml-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-      </span>
+        <ArrowLongRightIcon className="h-5 w-5" aria-hidden="true" />
+      </ControlButton>
     </nav>
   )
 }
