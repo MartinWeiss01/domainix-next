@@ -33,7 +33,7 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
   }
 
   return (
-    <div className="flex flex-col">
+    <section className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="overflow-x-auto rounded-lg">
@@ -172,7 +172,6 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
           </div>
         </div>
       </div>
-    </div>
 
       <Pagination
         currentPage={currentPage}
@@ -185,6 +184,7 @@ const Table = ({ estimationData, processing, domainName, years, translations }: 
         nextText={translations.paginationNext}
         previousText={translations.paginationPrevious}
       />
+    </section>
   )
 }
 
