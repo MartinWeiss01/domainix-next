@@ -1,5 +1,5 @@
 'use client'
-import { XMarkIcon, PlusIcon, MinusIcon } from "@heroicons/react/24/outline"
+import { XMarkIcon, PlusIcon, MinusIcon, TagIcon } from "@heroicons/react/24/outline"
 import { useCart } from "@/store/cart"
 import { CartData } from "@/types/cart"
 import { ITranslationsItem } from "@/types/translations"
@@ -22,51 +22,54 @@ const CartItem = ({
   const selectedCurrency = getSelectedCurrency().name
 
   return (
-    <div className="flex flex-col space-y-1">
+    <article className="flex flex-col group">
       <div className="flex justify-between items-start">
-        <span className="font-semibold truncate w-full">
+        {/* Domain Name */}
+        <span className="font-semibold truncate w-full flex items-center">
+          <TagIcon className="h-5 w-5 text-black mr-2 group-hover:text-primary-600" />
           {item.selectedDomain}{item.detail.domain}
         </span>
 
-        <button onClick={() => removeDomain(item)}>
+        {/* Remove Button */}
+        <button type="button" onClick={() => removeDomain(item)}>
           <XMarkIcon className="h-5 w-5 text-black hover:text-red-800 transition-colors" />
         </button>
       </div>
 
       <div className="flex justify-between">
-        <div className="flex flex-col">
+        {/* Item Details */}
+        <p className="flex flex-col">
           <small>{item.registrar.name}</small>
           <small>
             {calculatePrice(convertPriceCurrency((item.detail.priceReg + (item.years - 1) * item.detail.priceRen), item.registrar.currency, selectedCurrency, currencies), includeVAT, vat)} {currency}
           </small>
-        </div>
+        </p>
 
-        <div className="flex flex-col items-center">
-          <div className="border flex items-center p-1">
-            <button
-              type="button"
-              onClick={() => increaseYear(item, -1)}
-              className="w-6 h-6 flex items-center justify-center text-black hover:text-primary-600 transition-colors">
-              <MinusIcon className="h-4 w-4" aria-hidden="true" />
-            </button>
+        {/* Period Length Control */}
+        <div className="flex items-center border rounded p-1">
+          <button
+            type="button"
+            onClick={() => increaseYear(item, -1)}
+            className="w-6 h-6 flex items-center justify-center text-black hover:text-primary-600 transition-colors">
+            <MinusIcon className="h-4 w-4" aria-hidden="true" />
+          </button>
 
-            <small className="px-2 font-semibold uppercase text-xs">
-              {item.years} {
-                item.years < 5 ?
-                  item.years > 1 ? translations.pluralFew : translations.pluralOne
-                  : translations.pluralOther
-              }
-            </small>
+          <small className="px-2 font-semibold uppercase text-xs">
+            {item.years} {
+              item.years < 5 ?
+                item.years > 1 ? translations.pluralFew : translations.pluralOne
+                : translations.pluralOther
+            }
+          </small>
 
-            <button
-              onClick={() => increaseYear(item, +1)}
-              className="w-6 h-6 flex items-center justify-center text-black hover:text-primary-600 transition-colors">
-              <PlusIcon className="h-4 w-4" aria-hidden="true" />
-            </button>
-          </div>
+          <button
+            onClick={() => increaseYear(item, +1)}
+            className="w-6 h-6 flex items-center justify-center text-black hover:text-primary-600 transition-colors">
+            <PlusIcon className="h-4 w-4" aria-hidden="true" />
+          </button>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 

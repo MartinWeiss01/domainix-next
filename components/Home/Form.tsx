@@ -26,27 +26,16 @@ const Form = ({ availableTLDs, findAction, processing, translations }: FormProps
   useEffect(() => {
     const domain = formData.domain.replace(/\s/g, '')
     const tld = formData.tld.replace(/\s/g, '')
-
-    setFormData(prev => ({
-      ...prev,
-      enabled: (domain.length > 0 && tld.length > 1)
-    }))
+    setFormData(prev => ({ ...prev, enabled: (domain.length > 0 && tld.length > 1) }))
   }, [formData.domain, formData.tld])
-
 
   const handleDomainChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     if (value.endsWith('.')) {
-      setFormData(prev => ({
-        ...prev,
-        tld: '.'
-      }))
+      setFormData(prev => ({ ...prev, tld: '.' }))
       tldInputRef.current?.focus()
     } else {
-      setFormData(prev => ({
-        ...prev,
-        domain: value,
-      }))
+      setFormData(prev => ({ ...prev, domain: value }))
     }
   }
 

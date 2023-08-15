@@ -8,7 +8,7 @@ import { useVAT } from "@/store/vat"
 import { calculatePrice, convertPriceCurrency } from "@/libs/utilities"
 import { useCurrency } from "@/store/currency"
 
-const Cart = ({ translations }: { translations: ITranslationsCart }) => {
+const Cart = ({ translations, classNames = "" }: { translations: ITranslationsCart, classNames?: string }) => {
   const { domains } = useCart()
   const { vat, includeVAT } = useVAT()
   const { getSelectedCurrency, currencies } = useCurrency()
@@ -20,37 +20,40 @@ const Cart = ({ translations }: { translations: ITranslationsCart }) => {
       const price = convertPriceCurrency(originalPrice, el.registrar.currency, selectedCurrency, currencies)
       return acc + price
     }, 0)
+
     return (
-      <div className="p-6 sticky top-0">
+      <section className={`${classNames} p-6 sticky top-0`}>
         <h2 className="font-bold text-2xl">{translations.title}</h2>
+
         <div className="flex flex-col space-y-6 mt-2">
           {domains.map((el, key) => (
             <CartItem key={key} item={el} currency={translations[`currency${selectedCurrency}`]} translations={translations.item} />
           ))}
 
-          <div className="border-t pt-6 flex justify-between">
+          <p className="border-t pt-6 flex justify-between">
             <span className="font-semibold text-gray-400">{translations.priceTotal}</span>
             <span className="font-semibold">
               {calculatePrice(totalPrice, includeVAT, vat)} {translations[`currency${selectedCurrency}`]}
             </span>
-          </div>
+          </p>
         </div>
-      </div>
+      </section>
     )
-  }
-  else return (
-    <div className="p-6 sticky top-0">
+  } else return (
+    <section className={`${classNames} p-6 sticky top-0`}>
       <h2 className="font-bold text-2xl">{translations.title}</h2>
       <div className="flex flex-col justify-center items-center">
         <CartPlaceholder className="h-64 w-64" />
+
         <span className="font-semibold text-gray-800">
           {translations.emptyTitle}
         </span>
+
         <span className="text-center text-xs text-gray-400">
           {translations.emptyDescription}
         </span>
       </div>
-    </div>
+    </section>
   )
 }
 

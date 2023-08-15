@@ -21,14 +21,14 @@ const Estimation = ({ data, availableTLDs, translations }: EstimationProps) => {
   const [estimationData, setEstimationData] = useState<EstimationData[]>([])
   const [domainName, setDomainName] = useState('')
   const [years, setYears] = useState(1)
-  const { currencies, selectedCurrency, getDefaultCurrency } = useCurrency()
+  const { currencies, getSelectedCurrency } = useCurrency()
 
   const handleFormSubmit = useCallback((formData: FormState) => {
     flushSync(() => {
       // Prevent batching
       setProcessing(() => true)
     })
-    const tldRegistrars = findTLDRegistrars(data, formData.tld, formData.years, currencies, selectedCurrency?.name || getDefaultCurrency().name)
+    const tldRegistrars = findTLDRegistrars(data, formData.tld, formData.years, currencies, getSelectedCurrency().name)
     setEstimationData(() => tldRegistrars)
     setDomainName(() => formData.domain)
     setYears(() => formData.years)
@@ -36,33 +36,21 @@ const Estimation = ({ data, availableTLDs, translations }: EstimationProps) => {
   }, [data.data])
 
   return (
-    <div className="relative flex flex-col">
-      <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex">
-        {/* Main Area */}
-        <div className="flex-1 min-w-0 bg-white xl:flex">
-          <div className="lg:min-w-0 lg:flex-1">
-            <div className="h-full py-6 px-4 sm:px-6 lg:px-8">
-              <div className="relative h-full space-y-6" style={{ minHeight: "36rem" }}>
-                <Form availableTLDs={availableTLDs} findAction={handleFormSubmit} processing={processing} translations={translations.form} />
-                {estimationData.length > 0 &&
-                  <Table estimationData={estimationData} processing={processing} years={years} domainName={domainName} translations={translations.table} />
-                }
-              </div>
-            </div>
-          </div>
+    <div className="relative flex flex-grow w-full max-w-7xl mx-auto xl:px-8">
+      {/* Main Area */}
+      <main className="flex-1 min-w-0 bg-white xl:flex">
+        <div className="flex-1 h-full py-6 px-4 sm:px-6 lg:px-8 relative space-y-6">
+          <Form availableTLDs={availableTLDs} findAction={handleFormSubmit} processing={processing} translations={translations.form} />
+          {estimationData.length > 0 &&
+            <Table estimationData={estimationData} processing={processing} years={years} domainName={domainName} translations={translations.table} />
+          }
         </div>
-        {/* Main Area */}
+      </main>
 
-        <div className="bg-gray-50 pr-4 sm:pr-6 lg:pr-8 lg:flex-shrink-0 lg:border-l lg:border-gray-200 xl:pr-0 hidden lg:block">
-          <div className="h-full lg:w-80">
-            {/* Right Column */}
-            <div className="h-full relative" style={{ minHeight: "16rem" }}>
-              <Cart translations={translations.cart} />
-            </div>
-            {/* Right Column */}
-          </div>
-        </div>
-      </div>
+      {/* Right Column */}
+      <aside className="hidden lg:block pr-8 xl:pr-0 flex-shrink-0 bg-gray-50 border-l border-gray-200">
+        <Cart translations={translations.cart} classNames='h-full relative w-80' />
+      </aside>
     </div>
   )
 }
