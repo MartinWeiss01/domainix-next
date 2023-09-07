@@ -2,7 +2,7 @@
 import Form from '@/components/Home/Form'
 import Table from './Table'
 import { APIResponse } from '@/types/apiResponse'
-import { useCallback, useState } from 'react'
+import { Suspense, useCallback, useState, useTransition } from 'react'
 import { EstimationData, FormState } from '@/types/estimation'
 import { findTLDRegistrars } from '@/libs/utilities'
 import { flushSync } from 'react-dom'
@@ -17,34 +17,34 @@ interface EstimationProps {
 }
 
 const Estimation = ({ data, availableTLDs, translations }: EstimationProps) => {
-  const [processing, setProcessing] = useState(false)
+  const [isPending, startTransition] = useTransition()
+
   const [estimationData, setEstimationData] = useState<EstimationData[]>([])
   const [domainName, setDomainName] = useState('')
   const [years, setYears] = useState(1)
   const { currencies, getSelectedCurrency } = useCurrency()
 
   const handleFormSubmit = useCallback((formData: FormState) => {
-    flushSync(() => {
-      // Prevent batching
-      setProcessing(() => true)
+    startTransition(() => {
+      const tldRegistrars = findTLDRegistrars(data, formData.tld, formData.years, currencies, getSelectedCurrency().name)
+      setEstimationData(() => tldRegistrars)
+      setDomainName(() => formData.domain)
+      setYears(() => formData.years)
     })
-    const tldRegistrars = findTLDRegistrars(data, formData.tld, formData.years, currencies, getSelectedCurrency().name)
-    setEstimationData(() => tldRegistrars)
-    setDomainName(() => formData.domain)
-    setYears(() => formData.years)
-    setProcessing(() => false)
   }, [data.data])
 
   return (
     <div className="relative flex flex-grow w-full max-w-7xl mx-auto xl:px-8">
       {/* Main Area */}
       <main className="flex-1 min-w-0 bg-white xl:flex">
-        <div className="flex-1 h-full py-6 px-4 sm:px-6 lg:px-8 relative space-y-6">
-          <Form availableTLDs={availableTLDs} findAction={handleFormSubmit} processing={processing} translations={translations.form} />
-          {estimationData.length > 0 &&
-            <Table estimationData={estimationData} processing={processing} years={years} domainName={domainName} translations={translations.table} />
-          }
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <div className="flex-1 h-full py-6 px-4 sm:px-6 lg:px-8 relative space-y-6">
+            <Form availableTLDs={availableTLDs} findAction={handleFormSubmit} processing={isPending} translations={translations.form} />
+            {estimationData.length > 0 &&
+              <Table estimationData={estimationData} processing={isPending} years={years} domainName={domainName} translations={translations.table} />
+            }
+          </div>
+        </Suspense>
       </main>
 
       {/* Right Column */}
