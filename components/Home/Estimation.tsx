@@ -5,10 +5,10 @@ import { APIResponse } from '@/types/apiResponse'
 import { Suspense, useCallback, useState, useTransition } from 'react'
 import { EstimationData, FormState } from '@/types/estimation'
 import { findTLDRegistrars } from '@/libs/utilities'
-import { flushSync } from 'react-dom'
 import Cart from './Cart'
 import { ITranslationsEstimation } from '@/types/translations'
 import { useCurrency } from '@/store/currency'
+import { useRefreshToken } from '@/hooks/useRefreshToken'
 
 interface EstimationProps {
   data: APIResponse
@@ -18,7 +18,7 @@ interface EstimationProps {
 
 const Estimation = ({ data, availableTLDs, translations }: EstimationProps) => {
   const [isPending, startTransition] = useTransition()
-
+  const { response, error, isLoading } = useRefreshToken()
   const [estimationData, setEstimationData] = useState<EstimationData[]>([])
   const [domainName, setDomainName] = useState('')
   const [years, setYears] = useState(1)
