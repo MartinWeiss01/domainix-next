@@ -9,6 +9,20 @@ export interface ITranslationsEstimation {
   form: ITranslationsForm;
   table: ITranslationsTable;
   cart: ITranslationsCart;
+  availabilityChecker: ITranslationsAvailabilityChecker;
+}
+
+export interface ITranslationsAvailabilityChecker {
+  error: string;
+  loading: string;
+  unknown: string;
+  reserved: string;
+  available: string;
+  registered: string;
+  availableProbably: string;
+  registeredProbably: string;
+  availableMaybe: string;
+  registeredMaybe: string;
 }
 
 export interface ITranslationsCart {

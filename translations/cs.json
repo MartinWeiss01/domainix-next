@@ -37,6 +37,18 @@
       "button": "Najít registrátory",
       "processing": "Zpracovávání..."
     },
+    "availabilityChecker": {
+      "error": "Nepodařilo se ověřit dostupnost domény",
+      "loading": "Probíhá ověřování dostupnosti domény...",
+      "unknown": "Dostupnost této domény nelze ověřit",
+      "reserved": "Tato doména je rezervována",
+      "available": "Tato doména je k dispozici",
+      "registered": "Tato doména je obsazená",
+      "availableProbably": "Tato doména by měla být dostupná",
+      "registeredProbably": "Tato doména je již pravděpodobně zaregistrována",
+      "availableMaybe": "Vypadá to, že tato doména je k dispozici",
+      "registeredMaybe": "Vypadá to, že tato doména je již zaregistrována"
+    },
     "table": {
       "colRegistrar": "Registrátor",
       "colDomain": "Doména",
