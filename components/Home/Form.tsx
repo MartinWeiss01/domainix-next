@@ -12,7 +12,7 @@ interface FormProps {
   translations: ITranslationsForm
 }
 
-const INITIAL_FORM_STATE: FormState = {
+export const INITIAL_FORM_STATE: FormState = {
   tld: '',
   domain: '',
   years: 1,
