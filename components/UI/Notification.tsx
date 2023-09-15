@@ -1,7 +1,7 @@
 import { classNames } from "@/libs/utilities";
 import { CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, LightBulbIcon, ShieldExclamationIcon } from "@heroicons/react/24/outline"
 
-type TNotificationVariant = 'success' | 'error' | 'warning' | 'info' | 'default'
+export type TNotificationVariant = 'success' | 'error' | 'warning' | 'info' | 'default'
 type TVariants = {
   [key in TNotificationVariant]: { style: string; icon: React.ReactElement }
 }
