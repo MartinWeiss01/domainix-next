@@ -1,25 +1,25 @@
 "use client"
-import { ArrowPathIcon, FaceFrownIcon, FaceSmileIcon, QuestionMarkCircleIcon, ShieldExclamationIcon, StopCircleIcon } from "@heroicons/react/24/outline"
+import { ArrowPathIcon, FaceFrownIcon, FaceSmileIcon, QuestionMarkCircleIcon, StopCircleIcon } from "@heroicons/react/24/outline"
 import { memo } from "react"
 import useSWR from "swr"
-import { classNames } from "@/libs/utilities"
 import { ITranslationsAvailabilityChecker } from "@/types/translations"
 import { TWhoisAPIResponse, TWhoisStatusOptions } from "@/types/api/tokenEndpoint"
 import { globalFetcher } from "@/libs/globalSWRFetcher"
+import Notification, { TNotificationVariant } from "../UI/Notification"
 
 type TStatusMapping = {
   [key in TWhoisStatusOptions]: (score: number) => string;
 };
 
 type TStatusState = {
-  [key in TWhoisStatusOptions]: { style: string; icon: JSX.Element }
+  [key in TWhoisStatusOptions]: { variant: TNotificationVariant; icon: JSX.Element }
 };
 
 const statusState: TStatusState = {
-  unknown: { style: "bg-gray-50 text-gray-600", icon: <QuestionMarkCircleIcon className="w-6 h-6" /> },
-  available: { style: "bg-green-50 text-green-600", icon: <FaceSmileIcon className="w-6 h-6" /> },
-  registered: { style: "bg-red-50 text-red-600", icon: <FaceFrownIcon className="w-6 h-6" /> },
-  reserved: { style: "bg-yellow-50 text-yellow-600", icon: <StopCircleIcon className="w-6 h-6" /> },
+  unknown: { variant: "default", icon: <QuestionMarkCircleIcon className="w-6 h-6" /> },
+  available: { variant: "success", icon: <FaceSmileIcon className="w-6 h-6" /> },
+  registered: { variant: "error", icon: <FaceFrownIcon className="w-6 h-6" /> },
+  reserved: { variant: "warning", icon: <StopCircleIcon className="w-6 h-6" /> },
 }
 
 const AvailabilityChecker = ({
@@ -39,19 +39,8 @@ const AvailabilityChecker = ({
     { revalidateOnFocus: false, revalidateOnReconnect: false }
   )
 
-  if (isLoading) return (
-    <div className="w-100 flex p-4 rounded-lg space-x-4 text-sm items-center font-medium bg-blue-100 text-blue-600">
-      <ArrowPathIcon className="w-6 h-6 animate-spin" />
-      <span>{translations.loading}</span>
-    </div>
-  )
-
-  if (error) return (
-    <div className="w-100 flex p-4 rounded-lg space-x-4 text-sm items-center font-medium bg-red-100 text-red-600">
-      <ShieldExclamationIcon className="w-6 h-6" />
-      <span>{translations.error}</span>
-    </div>
-  )
+  if (isLoading) return <Notification text={translations.loading} variant="info" customIcon={<ArrowPathIcon className="w-6 h-6 animate-spin" />} />
+  if (error) return <Notification text={translations.error} variant="error" />
 
   const statusTextMap: TStatusMapping = {
     available: (score: number) => {
@@ -68,27 +57,12 @@ const AvailabilityChecker = ({
     unknown: () => translations.unknown,
   };
 
-
   if (data !== undefined) {
     const statusFunction = statusTextMap[data.status];
-
-    return (
-      <div className={classNames(
-        "w-100 flex p-4 rounded-lg space-x-4 text-sm items-center font-medium",
-        statusState[data.status].style
-      )}>
-        {statusState[data.status].icon}
-        <span>{statusFunction(data.score)}</span>
-      </div>
-    )
+    return <Notification text={statusFunction(data.score)} variant={statusState[data.status].variant} customIcon={statusState[data.status].icon} />
   }
 
-  return (
-    <div className="w-100 flex p-4 rounded-lg space-x-4 text-sm items-center font-medium bg-gray-50 text-gray-600">
-      <QuestionMarkCircleIcon className="w-6 h-6" />
-      <span>{translations.unknown}</span>
-    </div>
-  )
+  return <Notification text={translations.unknown} customIcon={<QuestionMarkCircleIcon className="w-6 h-6" />} />
 }
 
 export default memo(AvailabilityChecker)
