@@ -1,14 +1,15 @@
 'use client'
-import Form from '@/components/Home/Form'
+import Form, { INITIAL_FORM_STATE } from '@/components/Home/Form'
 import Table from './Table'
 import { APIResponse } from '@/types/apiResponse'
 import { Suspense, useCallback, useState, useTransition } from 'react'
 import { EstimationData, FormState } from '@/types/estimation'
 import { findTLDRegistrars } from '@/libs/utilities'
-import { flushSync } from 'react-dom'
 import Cart from './Cart'
 import { ITranslationsEstimation } from '@/types/translations'
 import { useCurrency } from '@/store/currency'
+import { useRefreshToken } from '@/hooks/useRefreshToken'
+import AvailabilityChecker from './AvailabilityChecker'
 
 interface EstimationProps {
   data: APIResponse
@@ -18,18 +19,16 @@ interface EstimationProps {
 
 const Estimation = ({ data, availableTLDs, translations }: EstimationProps) => {
   const [isPending, startTransition] = useTransition()
-
+  const { response } = useRefreshToken()
   const [estimationData, setEstimationData] = useState<EstimationData[]>([])
-  const [domainName, setDomainName] = useState('')
-  const [years, setYears] = useState(1)
+  const [formData, setFormData] = useState<FormState>(INITIAL_FORM_STATE)
   const { currencies, getSelectedCurrency } = useCurrency()
 
   const handleFormSubmit = useCallback((formData: FormState) => {
     startTransition(() => {
       const tldRegistrars = findTLDRegistrars(data, formData.tld, formData.years, currencies, getSelectedCurrency().name)
       setEstimationData(() => tldRegistrars)
-      setDomainName(() => formData.domain)
-      setYears(() => formData.years)
+      setFormData(() => formData)
     })
   }, [data.data])
 
@@ -40,8 +39,18 @@ const Estimation = ({ data, availableTLDs, translations }: EstimationProps) => {
         <Suspense fallback={<div>Loading...</div>}>
           <div className="flex-1 h-full py-6 px-4 sm:px-6 lg:px-8 relative space-y-6">
             <Form availableTLDs={availableTLDs} findAction={handleFormSubmit} processing={isPending} translations={translations.form} />
+
+            {response?.success && formData.domain !== '' && formData.tld !== '' &&
+              <AvailabilityChecker
+                token={response.token}
+                domain={formData.domain}
+                tld={formData.tld}
+                translations={translations.availabilityChecker}
+              />
+            }
+
             {estimationData.length > 0 &&
-              <Table estimationData={estimationData} processing={isPending} years={years} domainName={domainName} translations={translations.table} />
+              <Table estimationData={estimationData} processing={isPending} years={formData.years} domainName={formData.domain} translations={translations.table} />
             }
           </div>
         </Suspense>

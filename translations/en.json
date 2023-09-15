@@ -37,6 +37,18 @@
       "button": "Find Registrars",
       "processing": "Processing..."
     },
+    "availabilityChecker": {
+      "error": "Unable to verify domain availability",
+      "loading": "Checking domain availability...",
+      "unknown": "The availability of this domain cannot be verified",
+      "reserved": "This domain is reserved",
+      "available": "This domain is available",
+      "registered": "This domain is registered",
+      "availableProbably": "This domain should be available",
+      "registeredProbably": "This domain is probably already registered",
+      "availableMaybe": "Looks like this domain name is available",
+      "registeredMaybe": "Looks like this domain is already registered"
+    },
     "table": {
       "colRegistrar": "Registrar",
       "colDomain": "Domain Name",

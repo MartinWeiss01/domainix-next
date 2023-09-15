@@ -52,11 +52,11 @@ module.exports = {
             opacity: '0'
           }
         }
+      },
+      animation: {
+        'loading-animation': 'loading-animation 1s cubic-bezier(0, 0.2, 0.8, 1) infinite'
       }
     },
-    animation: {
-      'loading-animation': 'loading-animation 1s cubic-bezier(0, 0.2, 0.8, 1) infinite'
-    }
   },
   plugins: [],
 }
